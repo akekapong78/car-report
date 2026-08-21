@@ -168,22 +168,7 @@
   }
   .check-item:active { background: color-mix(in srgb, var(--accent) 8%, transparent); }
   .check-item input { width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
-  .check-item.no-issue { border-top: 1px solid var(--border); margin-top: 4px; padding-top: 12px; font-weight: 600; }
-
-  textarea {
-    width: 100%;
-    font-size: 15px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    border: 1.5px solid var(--border);
-    background: var(--input-bg);
-    color: var(--text);
-    font-family: inherit;
-    resize: vertical;
-    min-height: 60px;
-    margin-top: 10px;
-  }
-  textarea:focus { outline: none; border-color: var(--accent); }
+  .check-item.no-issue { border-bottom: 1px solid var(--border); margin-bottom: 4px; padding-bottom: 12px; font-weight: 600; }
 
   .submit-btn {
     width: 100%;
@@ -273,6 +258,7 @@
         <details class="checklist-dropdown" id="checklistDropdown">
           <summary id="checklistTrigger">ไม่พบปัญหา</summary>
           <div class="checklist-panel" id="checklistPanel">
+            <label class="check-item no-issue"><input type="checkbox" value="ไม่พบปัญหา" checked>ไม่พบปัญหา</label>
             <label class="check-item"><input type="checkbox" value="เข็มขัดนิรภัย">เข็มขัดนิรภัย</label>
             <label class="check-item"><input type="checkbox" value="ไฟส่องสว่าง (สูง-ต่ำ) หน้า-หลัง">ไฟส่องสว่าง (สูง-ต่ำ) หน้า-หลัง</label>
             <label class="check-item"><input type="checkbox" value="ไฟเบรก">ไฟเบรก</label>
@@ -292,10 +278,8 @@
             <label class="check-item"><input type="checkbox" value="ทำความสะอาดด้านในและด้านนอก">ทำความสะอาดด้านในและด้านนอก</label>
             <label class="check-item"><input type="checkbox" value="ความเสียหายภายใน">ความเสียหายภายใน</label>
             <label class="check-item"><input type="checkbox" value="ความเสียหายภายนอก">ความเสียหายภายนอก</label>
-            <label class="check-item no-issue"><input type="checkbox" value="ไม่พบปัญหา" checked>ไม่พบปัญหา</label>
           </div>
         </details>
-        <textarea id="checklistDetail" placeholder="รายละเอียดข้อบกพร่อง (หากไม่พบปัญหา ระบุว่า &quot;ปกติ&quot;)">ปกติ</textarea>
       </div>
 
       <button type="submit" class="submit-btn" id="submitBtn">เปิดฟอร์มพร้อมข้อมูล</button>
@@ -349,7 +333,7 @@
   var body = document.body;
   var plateEl = $("plate"), mileageEl = $("mileage"), empCodeEl = $("empCode");
   var oilPreview = $("oilPreview"), errorMsg = $("errorMsg");
-  var checklistPanel = $("checklistPanel"), checklistTrigger = $("checklistTrigger"), checklistDetailEl = $("checklistDetail");
+  var checklistPanel = $("checklistPanel"), checklistTrigger = $("checklistTrigger");
   var checklistBoxes = Array.prototype.slice.call(checklistPanel.querySelectorAll("input[type=checkbox]"));
   var noIssueBox = checklistBoxes.filter(function (b) { return b.value === NO_ISSUE; })[0];
 
@@ -377,13 +361,7 @@
   }
   function updateChecklistSummary() {
     var problems = selectedProblems();
-    if (problems.length === 0) {
-      checklistTrigger.textContent = NO_ISSUE;
-      if (checklistDetailEl.value.trim() === "" ) checklistDetailEl.value = "ปกติ";
-    } else {
-      checklistTrigger.textContent = problems.join(", ");
-      if (checklistDetailEl.value.trim() === "ปกติ") checklistDetailEl.value = "";
-    }
+    checklistTrigger.textContent = problems.length === 0 ? NO_ISSUE : problems.join(", ");
   }
   checklistBoxes.forEach(function (box) {
     box.addEventListener("change", function () {
@@ -419,7 +397,6 @@
     var mileage = mileageEl.value.trim();
     if (!mileage || isNaN(mileage) || parseInt(mileage, 10) < 0) return "กรุณากรอกเลขไมล์ให้ถูกต้อง";
     if (!empCodeEl.value.trim()) return "กรุณากรอกรหัสพนักงาน";
-    if (!checklistDetailEl.value.trim()) return "กรุณากรอกรายละเอียดข้อบกพร่อง (หากไม่พบปัญหา ระบุว่า \"ปกติ\")";
     return null;
   }
 
@@ -437,6 +414,9 @@
 
     var problems = selectedProblems();
     var checklistValues = problems.length ? problems : [NO_ISSUE];
+    // No problems picked -> silently send "ปกติ" as the detail note.
+    // Problems picked -> leave it blank; the user fills in what's wrong on the actual Google Form page.
+    var checklistDetail = problems.length ? "" : "ปกติ";
 
     var params = new URLSearchParams();
     params.set("usp", "pp_url");
@@ -447,7 +427,7 @@
     params.set("entry." + ENTRY.MILEAGE, String(mileage));
     params.set("entry." + ENTRY.VEHICLE_TYPE, FIXED.vehicleType);
     checklistValues.forEach(function (v) { params.append("entry." + ENTRY.CHECKLIST, v); });
-    params.set("entry." + ENTRY.CHECKLIST_DETAIL, checklistDetailEl.value.trim());
+    params.set("entry." + ENTRY.CHECKLIST_DETAIL, checklistDetail);
     params.set("entry." + ENTRY.EMP_CODE, empCode);
 
     saveCache(plate, empCode);
