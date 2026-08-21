@@ -150,12 +150,11 @@
   }
 
   /* ---- state views ---- */
-  #view-form, #view-loading, #view-success { display: none; }
+  #view-form, #view-loading { display: none; }
   body[data-state="form"] #view-form { display: block; }
   body[data-state="loading"] #view-loading { display: flex; }
-  body[data-state="success"] #view-success { display: flex; }
 
-  #view-loading, #view-success {
+  #view-loading {
     flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding: 60px 10px;
   }
@@ -171,45 +170,6 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   #view-loading p { color: var(--text-dim); font-size: 14px; }
 
-  .check-circle {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: color-mix(in srgb, var(--success) 16%, transparent);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 16px;
-    animation: pop .35s ease;
-  }
-  @keyframes pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .check-circle svg { width: 32px; height: 32px; }
-  #view-success h2 { margin: 0 0 6px; font-size: 19px; }
-  #view-success .summary {
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin: 16px 0 4px;
-    text-align: left;
-    font-size: 14px;
-    width: 100%;
-  }
-  #view-success .summary div { display: flex; justify-content: space-between; padding: 4px 0; }
-  #view-success .summary div span:first-child { color: var(--text-dim); }
-  #view-success .summary div span:last-child { font-weight: 600; }
-
-  .again-btn {
-    margin-top: 20px;
-    width: 100%;
-    padding: 15px;
-    border-radius: 14px;
-    border: 1.5px solid var(--accent);
-    background: transparent;
-    color: var(--accent);
-    font-size: 16px;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-  }
-  .again-btn:active { background: color-mix(in srgb, var(--accent) 10%, transparent); }
-
   footer { text-align: center; margin-top: 18px; font-size: 11.5px; color: var(--text-dim); }
 </style>
 </head>
@@ -219,7 +179,7 @@
   <header>
     <span class="badge">ผมต.กฟส.นธ. · กฟส.นราธิวาส</span>
     <h1>บันทึกตรวจรถก่อนปฏิบัติงาน</h1>
-    <p>กรอกแค่ 3 ช่อง ระบบกรอกรายละเอียดตรวจรถให้อัตโนมัติ</p>
+    <p>กรอกแค่ 3 ช่อง ระบบจะเปิด Google Form พร้อมกรอกให้ครบ แค่กด "ถัดไป" ไล่ไปจนถึงหน้าสุดท้ายแล้วกด "Submit"</p>
   </header>
 
   <div class="card">
@@ -247,26 +207,14 @@
         <input type="text" id="empCode" inputmode="numeric" pattern="[0-9]*" placeholder="กรอกรหัสพนักงาน" required>
       </div>
 
-      <button type="submit" class="submit-btn" id="submitBtn">บันทึกข้อมูล</button>
+      <button type="submit" class="submit-btn" id="submitBtn">เปิดฟอร์มพร้อมข้อมูล</button>
       <div class="error-msg" id="errorMsg"></div>
     </form>
 
-    <!-- LOADING VIEW -->
+    <!-- LOADING VIEW (brief, shown while navigating to Google Forms) -->
     <div id="view-loading">
       <div class="spinner"></div>
-      <p>กำลังบันทึกข้อมูล...</p>
-    </div>
-
-    <!-- SUCCESS VIEW -->
-    <div id="view-success">
-      <div class="check-circle">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 13l4 4L19 7" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h2>บันทึกสำเร็จ</h2>
-      <div class="summary" id="summaryBox"></div>
-      <button class="again-btn" id="againBtn">บันทึกรายการถัดไป</button>
+      <p>กำลังเปิด Google Form...</p>
     </div>
 
   </div>
@@ -278,7 +226,12 @@
 (function () {
   "use strict";
 
-  var FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSfaPj31ahG0RD69C6phnXxZvTygc36dVDeyLbGbCgRBZgiHMA/formResponse";
+  // Google Forms rejects raw POSTs to /formResponse for multi-page forms like this one
+  // (it needs a fresh, per-load "fbzx" token that a cross-origin fetch() can never read —
+  // docs.google.com sends no CORS headers). Instead we redirect to the form's own
+  // "pre-filled link" URL: Google's real page then loads with every field already filled
+  // in on its page, so submitting is just tapping "Next" a few times, no retyping.
+  var FORM_VIEW_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfaPj31ahG0RD69C6phnXxZvTygc36dVDeyLbGbCgRBZgiHMA/viewform";
   var CACHE_KEY = "vehicleCheckinCache_v1";
 
   // entry.<id> mapping reverse-engineered from the live Google Form's FB_PUBLIC_LOAD_DATA_
@@ -363,6 +316,7 @@
     var lastOil = computeLastOil(mileage);
 
     var params = new URLSearchParams();
+    params.set("usp", "pp_url");
     params.set("entry." + ENTRY.BRANCH, FIXED.branch);
     params.set("entry." + ENTRY.DEPT, FIXED.dept);
     params.set("entry." + ENTRY.PLATE, plate);
@@ -373,37 +327,9 @@
     params.set("entry." + ENTRY.CHECKLIST_DETAIL, FIXED.checklistDetail);
     params.set("entry." + ENTRY.EMP_CODE, empCode);
 
+    saveCache(plate, empCode);
     setState("loading");
-
-    fetch(FORM_ACTION, {
-      method: "POST",
-      mode: "no-cors", // Google Forms doesn't return CORS headers; response stays opaque
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-      body: params.toString()
-    }).then(function () {
-      saveCache(plate, empCode);
-      showSuccess(plate, mileage, empCode, lastOil);
-    }).catch(function () {
-      setState("form");
-      errorMsg.textContent = "ส่งข้อมูลไม่สำเร็จ (เครือข่ายมีปัญหา) กรุณาลองใหม่";
-    });
-  });
-
-  function showSuccess(plate, mileage, empCode, lastOil) {
-    $("summaryBox").innerHTML =
-      "<div><span>ทะเบียนรถ</span><span>" + plate + "</span></div>" +
-      "<div><span>เลขไมล์</span><span>" + fmt(mileage) + " กม.</span></div>" +
-      "<div><span>รหัสพนักงาน</span><span>" + empCode + "</span></div>" +
-      "<div><span>เปลี่ยนน้ำมันเครื่องล่าสุด</span><span>" + fmt(lastOil) + " กม.</span></div>";
-    setState("success");
-  }
-
-  $("againBtn").addEventListener("click", function () {
-    mileageEl.value = "";
-    oilPreview.textContent = "";
-    errorMsg.textContent = "";
-    setState("form");
-    mileageEl.focus();
+    window.location.href = FORM_VIEW_URL + "?" + params.toString();
   });
 
 })();
