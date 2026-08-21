@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5b2c82">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ตรวจรถ ผมต.นธ.">
+<meta name="mobile-web-app-capable" content="yes">
+<title>บันทึกตรวจรถ ผมต.นธ.</title>
+<style>
+  :root {
+    --accent: #5b2c82;
+    --accent-dark: #45215f;
+    --bg: #f2eef7;
+    --card-bg: #ffffff;
+    --text: #201a29;
+    --text-dim: #6b6475;
+    --border: #e1d9ec;
+    --input-bg: #faf8fc;
+    --success: #1e8e5a;
+    --error: #c0392b;
+    --radius: 16px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #b083e0;
+      --accent-dark: #8a5cc4;
+      --bg: #16121c;
+      --card-bg: #211b2b;
+      --text: #f1ecf7;
+      --text-dim: #a89fb8;
+      --border: #3a3247;
+      --input-bg: #2a2335;
+      --success: #4fd394;
+      --error: #ff7a68;
+    }
+  }
+  :root[data-theme="dark"] {
+    --accent: #b083e0; --accent-dark: #8a5cc4; --bg: #16121c; --card-bg: #211b2b;
+    --text: #f1ecf7; --text-dim: #a89fb8; --border: #3a3247; --input-bg: #2a2335;
+    --success: #4fd394; --error: #ff7a68;
+  }
+  :root[data-theme="light"] {
+    --accent: #5b2c82; --accent-dark: #45215f; --bg: #f2eef7; --card-bg: #ffffff;
+    --text: #201a29; --text-dim: #6b6475; --border: #e1d9ec; --input-bg: #faf8fc;
+    --success: #1e8e5a; --error: #c0392b;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans Thai UI", "Noto Sans Thai", "Sarabun", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior-y: contain;
+  }
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: max(20px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+  }
+  .app { width: 100%; max-width: 440px; }
+
+  header { text-align: center; margin: 8px 0 20px; }
+  header .badge {
+    display: inline-block; font-size: 13px; color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    padding: 4px 12px; border-radius: 999px; font-weight: 600; margin-bottom: 10px;
+  }
+  header h1 { font-size: 20px; margin: 0; font-weight: 700; }
+  header p { font-size: 13px; color: var(--text-dim); margin: 6px 0 0; }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+
+  .field { margin-bottom: 18px; }
+  .field:last-of-type { margin-bottom: 0; }
+  label {
+    display: block; font-size: 14px; font-weight: 600;
+    margin-bottom: 8px; color: var(--text);
+  }
+  label .hint { font-weight: 400; color: var(--text-dim); font-size: 12.5px; }
+
+  select, input[type="number"], input[type="text"] {
+    width: 100%;
+    font-size: 17px;
+    padding: 14px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text);
+    font-family: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  select:focus, input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M5 8l5 5 5-5' stroke='%236b6475' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+
+  .compute-preview {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+    min-height: 18px;
+  }
+  .compute-preview strong { color: var(--accent); }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 22px;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s ease, transform .1s ease;
+  }
+  .submit-btn:active { transform: scale(0.98); background: var(--accent-dark); }
+  .submit-btn:disabled { opacity: 0.5; }
+
+  .error-msg {
+    color: var(--error);
+    font-size: 13px;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 16px;
+  }
+
+  /* ---- state views ---- */
+  #view-form, #view-loading, #view-success { display: none; }
+  body[data-state="form"] #view-form { display: block; }
+  body[data-state="loading"] #view-loading { display: flex; }
+  body[data-state="success"] #view-success { display: flex; }
+
+  #view-loading, #view-success {
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 60px 10px;
+  }
+
+  .spinner {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 4px solid var(--border);
+    border-top-color: var(--accent);
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 18px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #view-loading p { color: var(--text-dim); font-size: 14px; }
+
+  .check-circle {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: color-mix(in srgb, var(--success) 16%, transparent);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+    animation: pop .35s ease;
+  }
+  @keyframes pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .check-circle svg { width: 32px; height: 32px; }
+  #view-success h2 { margin: 0 0 6px; font-size: 19px; }
+  #view-success .summary {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 16px 0 4px;
+    text-align: left;
+    font-size: 14px;
+    width: 100%;
+  }
+  #view-success .summary div { display: flex; justify-content: space-between; padding: 4px 0; }
+  #view-success .summary div span:first-child { color: var(--text-dim); }
+  #view-success .summary div span:last-child { font-weight: 600; }
+
+  .again-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 14px;
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .again-btn:active { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+
+  footer { text-align: center; margin-top: 18px; font-size: 11.5px; color: var(--text-dim); }
+</style>
+</head>
+<body data-state="form">
+<div class="app">
+
+  <header>
+    <span class="badge">ผมต.กฟส.นธ. · กฟส.นราธิวาส</span>
+    <h1>บันทึกตรวจรถก่อนปฏิบัติงาน</h1>
+    <p>กรอกแค่ 3 ช่อง ระบบกรอกรายละเอียดตรวจรถให้อัตโนมัติ</p>
+  </header>
+
+  <div class="card">
+
+    <!-- FORM VIEW -->
+    <form id="view-form" novalidate>
+      <div class="field">
+        <label for="plate">ทะเบียนรถ</label>
+        <select id="plate" required>
+          <option value="" disabled selected>เลือกทะเบียนรถ</option>
+          <option value="บฉ 7079 นธ.">บฉ 7079 นธ.</option>
+          <option value="2 ขศ 9017 กทม.">2 ขศ 9017 กทม.</option>
+          <option value="80-5930 นธ.">80-5930 นธ.</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="mileage">เลขไมล์ <span class="hint">(กม.)</span></label>
+        <input type="number" id="mileage" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="เช่น 123456" required>
+        <div class="compute-preview" id="oilPreview"></div>
+      </div>
+
+      <div class="field">
+        <label for="empCode">รหัสพนักงาน</label>
+        <input type="text" id="empCode" inputmode="numeric" pattern="[0-9]*" placeholder="กรอกรหัสพนักงาน" required>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">บันทึกข้อมูล</button>
+      <div class="error-msg" id="errorMsg"></div>
+    </form>
+
+    <!-- LOADING VIEW -->
+    <div id="view-loading">
+      <div class="spinner"></div>
+      <p>กำลังบันทึกข้อมูล...</p>
+    </div>
+
+    <!-- SUCCESS VIEW -->
+    <div id="view-success">
+      <div class="check-circle">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 13l4 4L19 7" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>บันทึกสำเร็จ</h2>
+      <div class="summary" id="summaryBox"></div>
+      <button class="again-btn" id="againBtn">บันทึกรายการถัดไป</button>
+    </div>
+
+  </div>
+
+  <footer>ระบบภายใน · ผมต.กฟส.นธ.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSfaPj31ahG0RD69C6phnXxZvTygc36dVDeyLbGbCgRBZgiHMA/formResponse";
+  var CACHE_KEY = "vehicleCheckinCache_v1";
+
+  // entry.<id> mapping reverse-engineered from the live Google Form's FB_PUBLIC_LOAD_DATA_
+  var ENTRY = {
+    BRANCH: "1645257452",           // กฟฟ.
+    DEPT: "225784074",              // แผนกใน กฟจ.นธ. และ กฟฟ.ในสังกัด
+    PLATE: "506576836",             // หมายเลขทะเบียนรถ ผมต.นธ.
+    LAST_OIL: "266239586",          // เลขไมล์เปลี่ยนถ่ายน้ำมันเครื่องครั้งต่อไป (คำนวณ)
+    MILEAGE: "2028474554",          // เลขไมล์ปัจจุบัน
+    VEHICLE_TYPE: "192645283",      // ประเภทรถ
+    CHECKLIST: "1190046626",        // รายการปัญหาที่พบ (รถทั่วไป)
+    CHECKLIST_DETAIL: "776683018",  // รายละเอียดข้อบกพร่อง (รถทั่วไป)
+    EMP_CODE: "38458013"            // รหัสพนักงาน
+  };
+
+  var FIXED = {
+    branch: "กฟส.นราธิวาส",
+    dept: "ผมต.กฟส.นธ.",
+    vehicleType: "รถทั่วไป นอกเหนือข้อ 1-2",
+    checklist: "ไม่พบปัญหา",
+    checklistDetail: "ปกติ"
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var body = document.body;
+  var plateEl = $("plate"), mileageEl = $("mileage"), empCodeEl = $("empCode");
+  var oilPreview = $("oilPreview"), errorMsg = $("errorMsg");
+
+  function setState(s) { body.setAttribute("data-state", s); }
+
+  function computeLastOil(mileage) {
+    return Math.floor(mileage / 10000) * 10000;
+  }
+
+  function fmt(n) { return Number(n).toLocaleString("th-TH"); }
+
+  function updatePreview() {
+    var v = parseInt(mileageEl.value, 10);
+    if (!isNaN(v) && v >= 0) {
+      oilPreview.innerHTML = "ระยะเปลี่ยนถ่ายน้ำมันเครื่องล่าสุด: <strong>" + fmt(computeLastOil(v)) + " กม.</strong>";
+    } else {
+      oilPreview.textContent = "";
+    }
+  }
+  mileageEl.addEventListener("input", updatePreview);
+
+  // ---- cache: last used ทะเบียนรถ + รหัสพนักงาน ----
+  function loadCache() {
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return;
+      var c = JSON.parse(raw);
+      if (c.plate) plateEl.value = c.plate;
+      if (c.empCode) empCodeEl.value = c.empCode;
+    } catch (e) { /* ignore corrupt cache */ }
+  }
+  function saveCache(plate, empCode) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ plate: plate, empCode: empCode }));
+    } catch (e) { /* storage unavailable, ignore */ }
+  }
+  loadCache();
+
+  function validate() {
+    if (!plateEl.value) return "กรุณาเลือกทะเบียนรถ";
+    var mileage = mileageEl.value.trim();
+    if (!mileage || isNaN(mileage) || parseInt(mileage, 10) < 0) return "กรุณากรอกเลขไมล์ให้ถูกต้อง";
+    if (!empCodeEl.value.trim()) return "กรุณากรอกรหัสพนักงาน";
+    return null;
+  }
+
+  $("view-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    errorMsg.textContent = "";
+
+    var err = validate();
+    if (err) { errorMsg.textContent = err; return; }
+
+    var plate = plateEl.value;
+    var mileage = parseInt(mileageEl.value, 10);
+    var empCode = empCodeEl.value.trim();
+    var lastOil = computeLastOil(mileage);
+
+    var params = new URLSearchParams();
+    params.set("entry." + ENTRY.BRANCH, FIXED.branch);
+    params.set("entry." + ENTRY.DEPT, FIXED.dept);
+    params.set("entry." + ENTRY.PLATE, plate);
+    params.set("entry." + ENTRY.LAST_OIL, String(lastOil));
+    params.set("entry." + ENTRY.MILEAGE, String(mileage));
+    params.set("entry." + ENTRY.VEHICLE_TYPE, FIXED.vehicleType);
+    params.set("entry." + ENTRY.CHECKLIST, FIXED.checklist);
+    params.set("entry." + ENTRY.CHECKLIST_DETAIL, FIXED.checklistDetail);
+    params.set("entry." + ENTRY.EMP_CODE, empCode);
+
+    setState("loading");
+
+    fetch(FORM_ACTION, {
+      method: "POST",
+      mode: "no-cors", // Google Forms doesn't return CORS headers; response stays opaque
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: params.toString()
+    }).then(function () {
+      saveCache(plate, empCode);
+      showSuccess(plate, mileage, empCode, lastOil);
+    }).catch(function () {
+      setState("form");
+      errorMsg.textContent = "ส่งข้อมูลไม่สำเร็จ (เครือข่ายมีปัญหา) กรุณาลองใหม่";
+    });
+  });
+
+  function showSuccess(plate, mileage, empCode, lastOil) {
+    $("summaryBox").innerHTML =
+      "<div><span>ทะเบียนรถ</span><span>" + plate + "</span></div>" +
+      "<div><span>เลขไมล์</span><span>" + fmt(mileage) + " กม.</span></div>" +
+      "<div><span>รหัสพนักงาน</span><span>" + empCode + "</span></div>" +
+      "<div><span>เปลี่ยนน้ำมันเครื่องล่าสุด</span><span>" + fmt(lastOil) + " กม.</span></div>";
+    setState("success");
+  }
+
+  $("againBtn").addEventListener("click", function () {
+    mileageEl.value = "";
+    oilPreview.textContent = "";
+    errorMsg.textContent = "";
+    setState("form");
+    mileageEl.focus();
+  });
+
+})();
+</script>
+</body>
+</html>
