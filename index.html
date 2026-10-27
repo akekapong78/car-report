@@ -1,441 +1,1871 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#5b2c82">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ตรวจรถ ผมต.นธ.">
-<meta name="mobile-web-app-capable" content="yes">
-<title>บันทึกตรวจรถ ผมต.นธ.</title>
-<style>
-  :root {
-    --accent: #5b2c82;
-    --accent-dark: #45215f;
-    --bg: #f2eef7;
-    --card-bg: #ffffff;
-    --text: #201a29;
-    --text-dim: #6b6475;
-    --border: #e1d9ec;
-    --input-bg: #faf8fc;
-    --success: #1e8e5a;
-    --error: #c0392b;
-    --radius: 16px;
-  }
-  @media (prefers-color-scheme: dark) {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#5b2c82">
+  <title>แดชบอร์ดสรุปผลการตรวจรถ 2569 · กฟจ.นราธิวาส</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <style>
     :root {
-      --accent: #b083e0;
-      --accent-dark: #8a5cc4;
-      --bg: #16121c;
-      --card-bg: #211b2b;
-      --text: #f1ecf7;
-      --text-dim: #a89fb8;
-      --border: #3a3247;
-      --input-bg: #2a2335;
-      --success: #4fd394;
-      --error: #ff7a68;
+      --primary: #5b2c82;
+      --primary-light: #7b42a8;
+      --primary-dark: #3f1a5e;
+      --primary-subtle: #f3eef9;
+      --accent: #9333ea;
+      
+      --bg: #f5f4f8;
+      --card-bg: #ffffff;
+      --card-border: #e8e4f0;
+      --text: #1e1926;
+      --text-muted: #6b6377;
+      --text-light: #9e96ac;
+      
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --success-text: #065f46;
+      --warning: #f59e0b;
+      --warning-bg: #fffbeb;
+      --warning-text: #92400e;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      --danger-text: #991b1b;
+      
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 14px 0 rgba(91, 44, 130, 0.08);
+      --shadow-lg: 0 10px 25px -5px rgba(91, 44, 130, 0.12);
+      
+      --radius-sm: 8px;
+      --radius: 14px;
+      --radius-lg: 20px;
     }
-  }
-  :root[data-theme="dark"] {
-    --accent: #b083e0; --accent-dark: #8a5cc4; --bg: #16121c; --card-bg: #211b2b;
-    --text: #f1ecf7; --text-dim: #a89fb8; --border: #3a3247; --input-bg: #2a2335;
-    --success: #4fd394; --error: #ff7a68;
-  }
-  :root[data-theme="light"] {
-    --accent: #5b2c82; --accent-dark: #45215f; --bg: #f2eef7; --card-bg: #ffffff;
-    --text: #201a29; --text-dim: #6b6475; --border: #e1d9ec; --input-bg: #faf8fc;
-    --success: #1e8e5a; --error: #c0392b;
-  }
 
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Noto Sans Thai UI", "Noto Sans Thai", "Sarabun", system-ui, -apple-system, "Segoe UI", sans-serif;
-    -webkit-text-size-adjust: 100%;
-    overscroll-behavior-y: contain;
-  }
-  body {
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: max(20px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
-  }
-  .app { width: 100%; max-width: 440px; }
+    [data-theme="dark"] {
+      --primary: #a855f7;
+      --primary-light: #c084fc;
+      --primary-dark: #7e22ce;
+      --primary-subtle: #241434;
+      --accent: #c084fc;
+      
+      --bg: #120f17;
+      --card-bg: #1c1724;
+      --card-border: #2d253a;
+      --text: #f3f0f7;
+      --text-muted: #a79eb4;
+      --text-light: #6a6177;
+      
+      --success: #34d399;
+      --success-bg: #064e3b33;
+      --success-text: #6ee7b7;
+      --warning: #fbbf24;
+      --warning-bg: #78350f33;
+      --warning-text: #fde68a;
+      --danger: #f87171;
+      --danger-bg: #7f1d1d33;
+      --danger-text: #fca5a5;
+      
+      --shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
 
-  header { text-align: center; margin: 8px 0 20px; }
-  header .badge {
-    display: inline-block; font-size: 13px; color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 14%, transparent);
-    padding: 4px 12px; border-radius: 999px; font-weight: 600; margin-bottom: 10px;
-  }
-  header h1 { font-size: 20px; margin: 0; font-weight: 700; }
-  header p { font-size: 13px; color: var(--text-dim); margin: 6px 0 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: "Prompt", "Sarabun", system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 18px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-  }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 20px 48px;
+    }
 
-  .field { margin-bottom: 18px; }
-  .field:last-of-type { margin-bottom: 0; }
-  label {
-    display: block; font-size: 14px; font-weight: 600;
-    margin-bottom: 8px; color: var(--text);
-  }
-  label .hint { font-weight: 400; color: var(--text-dim); font-size: 12.5px; }
+    /* Top Navigation Header */
+    header.main-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
 
-  select, input[type="number"], input[type="text"] {
-    width: 100%;
-    font-size: 17px;
-    padding: 14px 14px;
-    border-radius: 12px;
-    border: 1.5px solid var(--border);
-    background: var(--input-bg);
-    color: var(--text);
-    font-family: inherit;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-  select:focus, input:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-  select {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M5 8l5 5 5-5' stroke='%236b6475' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 40px;
-  }
+    .header-branding {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-  .compute-preview {
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--text-dim);
-    min-height: 18px;
-  }
-  .compute-preview strong { color: var(--accent); }
+    .pea-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 20px;
+      box-shadow: 0 4px 10px rgba(91, 44, 130, 0.25);
+    }
 
-  /* ---- checklist dropdown (ความผิดปกติ) ---- */
-  .checklist-dropdown {
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    background: var(--input-bg);
-  }
-  .checklist-dropdown summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 14px 40px 14px 14px;
-    font-size: 15px;
-    color: var(--text);
-    position: relative;
-    line-height: 1.4;
-  }
-  .checklist-dropdown summary::-webkit-details-marker { display: none; }
-  .checklist-dropdown summary::after {
-    content: "";
-    position: absolute;
-    right: 16px; top: 50%;
-    width: 10px; height: 10px;
-    margin-top: -6px;
-    border-right: 1.8px solid var(--text-dim);
-    border-bottom: 1.8px solid var(--text-dim);
-    transform: rotate(45deg);
-    transition: transform .15s ease;
-  }
-  .checklist-dropdown[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
-  .checklist-dropdown[open] summary { border-bottom: 1.5px solid var(--border); }
-  .checklist-panel {
-    max-height: 280px;
-    overflow-y: auto;
-    padding: 6px 4px;
-  }
-  .check-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 12px;
-    font-size: 14.5px;
-    color: var(--text);
-    cursor: pointer;
-    border-radius: 8px;
-  }
-  .check-item:active { background: color-mix(in srgb, var(--accent) 8%, transparent); }
-  .check-item input { width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
-  .check-item.no-issue { border-bottom: 1px solid var(--border); margin-bottom: 4px; padding-bottom: 12px; font-weight: 600; }
+    .header-text h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .submit-btn {
-    width: 100%;
-    margin-top: 22px;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    background: var(--accent);
-    color: #fff;
-    font-size: 17px;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-    transition: background .15s ease, transform .1s ease;
-  }
-  .submit-btn:active { transform: scale(0.98); background: var(--accent-dark); }
-  .submit-btn:disabled { opacity: 0.5; }
+    .header-text p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
 
-  .error-msg {
-    color: var(--error);
-    font-size: 13px;
-    margin-top: 10px;
-    text-align: center;
-    min-height: 16px;
-  }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-  /* ---- state views ---- */
-  #view-form, #view-loading { display: none; }
-  body[data-state="form"] #view-form { display: block; }
-  body[data-state="loading"] #view-loading { display: flex; }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      background: var(--card-bg);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
 
-  #view-loading {
-    flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 60px 10px;
-  }
+    .nav-btn:hover {
+      background: var(--primary-subtle);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
 
-  .spinner {
-    width: 46px; height: 46px;
-    border-radius: 50%;
-    border: 4px solid var(--border);
-    border-top-color: var(--accent);
-    animation: spin 0.8s linear infinite;
-    margin-bottom: 18px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #view-loading p { color: var(--text-dim); font-size: 14px; }
+    .nav-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
 
-  footer { text-align: center; margin-top: 18px; font-size: 11.5px; color: var(--text-dim); }
-</style>
+    .theme-toggle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .theme-toggle-btn:hover {
+      transform: scale(1.05);
+      border-color: var(--primary);
+    }
+
+    /* Sync & Realtime Status Bar */
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    .sync-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--success);
+      display: inline-block;
+      position: relative;
+    }
+    .pulse-dot::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      background-color: var(--success);
+      animation: pulse 1.8s infinite ease-out;
+      opacity: 0.8;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+
+    .sync-label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .sync-time {
+      color: var(--text-muted);
+    }
+
+    .sync-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-refresh {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      border: 1px solid transparent;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-refresh:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-refresh.spinning svg {
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .auto-refresh-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.82rem;
+      user-select: none;
+    }
+    .auto-refresh-toggle input {
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Filters Section */
+    .filter-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      align-items: flex-end;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    select.form-control, input.form-control {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      color: var(--text);
+      background-color: var(--bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select.form-control {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b6377'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px 16px;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    select.form-control:focus, input.form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(91, 44, 130, 0.12);
+    }
+
+    /* KPI Summary Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .kpi-card.kpi-primary::before { background: var(--primary); }
+    .kpi-card.kpi-success::before { background: var(--success); }
+    .kpi-card.kpi-warning::before { background: var(--warning); }
+    .kpi-card.kpi-danger::before { background: var(--danger); }
+
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .kpi-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .kpi-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      background: var(--primary-subtle);
+      color: var(--primary);
+    }
+
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 4px;
+      font-feature-settings: "tnum";
+    }
+
+    .kpi-subtext {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .kpi-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-success { background: var(--success-bg); color: var(--success-text); }
+    .badge-warning { background: var(--warning-bg); color: var(--warning-text); }
+    .badge-danger { background: var(--danger-bg); color: var(--danger-text); }
+
+    /* Chart Section */
+    .chart-container-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .chart-card-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .chart-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chart-card-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .chart-view-toggle {
+      display: flex;
+      background: var(--bg);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--card-border);
+    }
+
+    .chart-view-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chart-view-btn.active {
+      background: var(--card-bg);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 420px;
+      width: 100%;
+    }
+
+    /* Secondary Charts Grid */
+    .secondary-charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 992px) {
+      .secondary-charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Table Section */
+    .table-container-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .table-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .table-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .table-tab {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--card-border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .table-tab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .search-box {
+      position: relative;
+      max-width: 280px;
+      width: 100%;
+    }
+
+    .search-box input {
+      padding-left: 36px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--card-border);
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    table.data-table th {
+      background: var(--bg);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+
+    table.data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    table.data-table tr:hover td {
+      background-color: var(--primary-subtle);
+    }
+
+    .progress-bar-container {
+      width: 110px;
+      height: 8px;
+      background: var(--bg);
+      border-radius: 999px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .fill-success { background-color: var(--success); }
+    .fill-warning { background-color: var(--warning); }
+    .fill-danger { background-color: var(--danger); }
+
+    .dept-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: var(--bg);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    footer.dashboard-footer {
+      text-align: center;
+      padding: 24px 0 12px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 12px 14px 36px; }
+      .header-text h1 { font-size: 1.15rem; }
+      .chart-wrapper { height: 340px; }
+    }
+  </style>
 </head>
-<body data-state="form">
-<div class="app">
+<body>
 
-  <header>
-    <span class="badge">ผมต.กฟส.นธ. · กฟส.นราธิวาส</span>
-    <h1>บันทึกตรวจรถก่อนปฏิบัติงาน</h1>
-    <p>กรอกแค่ 3 ช่อง ระบบจะเปิด Google Form พร้อมกรอกให้ครบ แค่กด "ถัดไป" ไล่ไปจนถึงหน้าสุดท้ายแล้วกด "Submit"</p>
+<div class="container">
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-branding">
+      <div class="pea-logo">PEA</div>
+      <div class="header-text">
+        <h1>
+          <span>รายงานตรวจรถ 2569</span>
+          <span style="font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; background: var(--primary-subtle); color: var(--primary); font-weight: 600;">Realtime Monitor</span>
+        </h1>
+        <p>การไฟฟ้าส่วนภูมิภาค จังหวัดนราธิวาส (กฟจ.นธ. และการไฟฟ้าในสังกัด)</p>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <a href="index.html" class="nav-btn active">📊 แดชบอร์ดสรุปรายเดือน</a>
+      <a href="form.html" class="nav-btn">📝 บันทึกตรวจรถ</a>
+      <a href="https://docs.google.com/spreadsheets/d/1etuKVWh6opzevOlB3nf9VJ311IQJ_0PsCK3jshf1-JU/edit?gid=323454694#gid=323454694" target="_blank" rel="noopener noreferrer" class="nav-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        เปิด Google Sheet
+      </a>
+      <button class="theme-toggle-btn" id="themeToggleBtn" title="เปลี่ยนธีม มืด/สว่าง">🌙</button>
+    </div>
   </header>
 
-  <div class="card">
+  <!-- Real-time Status Bar -->
+  <div class="status-bar">
+    <div class="sync-info">
+      <span class="pulse-dot" id="syncDot"></span>
+      <span class="sync-label" id="syncStatus">กำลังเชื่อมต่อ Google Sheet แบบ Real-time...</span>
+      <span class="sync-time" id="syncTime">กำลังโหลดข้อมูล</span>
+    </div>
+    <div class="sync-controls">
+      <button class="btn-refresh" id="refreshBtn" onclick="manualRefresh()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+        <span>ดึงข้อมูลล่าสุด</span>
+      </button>
+      <label class="auto-refresh-toggle">
+        <input type="checkbox" id="autoRefreshCheckbox" checked>
+        <span>อัปเดตอัตโนมัติ (2 นาที)</span>
+      </label>
+    </div>
+  </div>
 
-    <!-- FORM VIEW -->
-    <form id="view-form" novalidate>
-      <div class="field">
-        <label for="plate">ทะเบียนรถ</label>
-        <select id="plate" required>
-          <option value="" disabled selected>เลือกทะเบียนรถ</option>
-          <option value="บฉ 7079 นธ.">บฉ 7079 นธ.</option>
-          <option value="2 ขศ 9017 กทม.">2 ขศ 9017 กทม.</option>
-          <option value="80-5930 นธ.">80-5930 นธ.</option>
+  <!-- Filter Controls -->
+  <div class="filter-panel">
+    <div class="filter-grid">
+      
+      <!-- Month Selector -->
+      <div class="form-group">
+        <label for="monthSelect">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          เลือกเดือนสรุปผล
+        </label>
+        <select id="monthSelect" class="form-control" onchange="onFilterChange()">
+          <!-- Populated by JS -->
         </select>
       </div>
 
-      <div class="field">
-        <label for="mileage">เลขไมล์ <span class="hint">(กม.)</span></label>
-        <input type="number" id="mileage" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="เช่น 123456" required>
-        <div class="compute-preview" id="oilPreview"></div>
+      <!-- Office Selector -->
+      <div class="form-group">
+        <label for="officeSelect">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>
+          สังกัด / กฟฟ.
+        </label>
+        <select id="officeSelect" class="form-control" onchange="onOfficeChange()">
+          <option value="ALL">ทุกสังกัด (ภาพรวม)</option>
+        </select>
       </div>
 
-      <div class="field">
-        <label for="empCode">รหัสพนักงาน</label>
-        <input type="text" id="empCode" inputmode="numeric" pattern="[0-9]*" placeholder="กรอกรหัสพนักงาน" required>
+      <!-- Department Selector -->
+      <div class="form-group">
+        <label for="deptSelect">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          แผนก
+        </label>
+        <select id="deptSelect" class="form-control" onchange="onFilterChange()">
+          <option value="ALL">ทุกแผนก (24 แผนก)</option>
+        </select>
       </div>
 
-      <div class="field">
-        <label for="checklistTrigger">ความผิดปกติ</label>
-        <details class="checklist-dropdown" id="checklistDropdown">
-          <summary id="checklistTrigger">ไม่พบปัญหา</summary>
-          <div class="checklist-panel" id="checklistPanel">
-            <label class="check-item no-issue"><input type="checkbox" value="ไม่พบปัญหา" checked>ไม่พบปัญหา</label>
-            <label class="check-item"><input type="checkbox" value="เข็มขัดนิรภัย">เข็มขัดนิรภัย</label>
-            <label class="check-item"><input type="checkbox" value="ไฟส่องสว่าง (สูง-ต่ำ) หน้า-หลัง">ไฟส่องสว่าง (สูง-ต่ำ) หน้า-หลัง</label>
-            <label class="check-item"><input type="checkbox" value="ไฟเบรก">ไฟเบรก</label>
-            <label class="check-item"><input type="checkbox" value="ไฟสัญญาณ (ไฟวับวาบ,เลี้ยวซ้าย-ขวา,ถอย)">ไฟสัญญาณ (ไฟวับวาบ,เลี้ยวซ้าย-ขวา,ถอย)</label>
-            <label class="check-item"><input type="checkbox" value="กระจกหน้ารถ">กระจกหน้ารถ</label>
-            <label class="check-item"><input type="checkbox" value="กระจกมองข้าง/หลัง">กระจกมองข้าง/หลัง</label>
-            <label class="check-item"><input type="checkbox" value="ที่ปัดน้ำฝน">ที่ปัดน้ำฝน</label>
-            <label class="check-item"><input type="checkbox" value="น้ำฉีดกระจก">น้ำฉีดกระจก</label>
-            <label class="check-item"><input type="checkbox" value="ระดับน้ำมันเชื้อเพลิง">ระดับน้ำมันเชื้อเพลิง</label>
-            <label class="check-item"><input type="checkbox" value="ระดับน้ำมันหล่อลื่นเครื่องยนต์">ระดับน้ำมันหล่อลื่นเครื่องยนต์</label>
-            <label class="check-item"><input type="checkbox" value="การทำงานของแตร">การทำงานของแตร</label>
-            <label class="check-item"><input type="checkbox" value="ระบบเบรก (เบรกมือ/เบรกเท้า)">ระบบเบรก (เบรกมือ/เบรกเท้า)</label>
-            <label class="check-item"><input type="checkbox" value="เครื่องปรับอากาศ">เครื่องปรับอากาศ</label>
-            <label class="check-item"><input type="checkbox" value="สภาพยาง กระทะล้อ และน๊อตยึดล้อ">สภาพยาง กระทะล้อ และน๊อตยึดล้อ</label>
-            <label class="check-item"><input type="checkbox" value="อุปกรณ์ดับเพลิง">อุปกรณ์ดับเพลิง</label>
-            <label class="check-item"><input type="checkbox" value="แบตเตอรี่ (ขั้ว, น้ำกลั่น)">แบตเตอรี่ (ขั้ว, น้ำกลั่น)</label>
-            <label class="check-item"><input type="checkbox" value="ทำความสะอาดด้านในและด้านนอก">ทำความสะอาดด้านในและด้านนอก</label>
-            <label class="check-item"><input type="checkbox" value="ความเสียหายภายใน">ความเสียหายภายใน</label>
-            <label class="check-item"><input type="checkbox" value="ความเสียหายภายนอก">ความเสียหายภายนอก</label>
-          </div>
-        </details>
+      <!-- Sort Selector -->
+      <div class="form-group">
+        <label for="sortSelect">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="4"></line><polyline points="6 10 12 4 18 10"></polyline></svg>
+          การเรียงลำดับ
+        </label>
+        <select id="sortSelect" class="form-control" onchange="onFilterChange()">
+          <option value="ORIGINAL" selected>📑 เรียงตามโครงสร้างแผนก (ตามชีท)</option>
+          <option value="PCT_DESC">📈 เรียงจาก % ตรวจสูงสุด -> ต่ำสุด</option>
+          <option value="PCT_ASC">📉 เรียงจาก % ตรวจต่ำสุด -> สูงสุด</option>
+          <option value="NAME_ASC">🔤 เรียงตามชื่อแผนก (ก-ฮ)</option>
+        </select>
       </div>
 
-      <button type="submit" class="submit-btn" id="submitBtn">เปิดฟอร์มพร้อมข้อมูล</button>
-      <div class="error-msg" id="errorMsg"></div>
-    </form>
+    </div>
+  </div>
 
-    <!-- LOADING VIEW (brief, shown while navigating to Google Forms) -->
-    <div id="view-loading">
-      <div class="spinner"></div>
-      <p>กำลังเปิด Google Form...</p>
+  <!-- KPI Summary Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-primary">
+      <div class="kpi-header">
+        <span class="kpi-title">อัตราการตรวจรถเฉลี่ย</span>
+        <div class="kpi-icon">📊</div>
+      </div>
+      <div class="kpi-value" id="kpiAvgPct">0.0%</div>
+      <div class="kpi-subtext">
+        <span>เป้าหมายมาตรฐาน 80%</span>
+        <span class="kpi-badge badge-success" id="kpiAvgStatus">ปกติ</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-primary">
+      <div class="kpi-header">
+        <span class="kpi-title">วันตรวจจริง / วันทำงาน</span>
+        <div class="kpi-icon">📅</div>
+      </div>
+      <div class="kpi-value" id="kpiDaysRatio">0 / 0</div>
+      <div class="kpi-subtext" id="kpiDaysSubtext">วันทำงาน 0 วัน · รถ 0 คัน</div>
+    </div>
+
+    <div class="kpi-card kpi-success">
+      <div class="kpi-header">
+        <span class="kpi-title">แผนกที่ผ่านเกณฑ์ (≥80%)</span>
+        <div class="kpi-icon" style="background: var(--success-bg); color: var(--success);">🏆</div>
+      </div>
+      <div class="kpi-value" id="kpiPassedDepts">0 แผนก</div>
+      <div class="kpi-subtext" id="kpiPassedDeptsSubtext">0% ของแผนกทั้งหมด</div>
+    </div>
+
+    <div class="kpi-card kpi-danger">
+      <div class="kpi-header">
+        <span class="kpi-title">แผนกที่ต้องติดตาม (&lt;50%)</span>
+        <div class="kpi-icon" style="background: var(--danger-bg); color: var(--danger);">⚠️</div>
+      </div>
+      <div class="kpi-value" id="kpiAlertDepts">0 แผนก</div>
+      <div class="kpi-subtext" id="kpiAlertDeptsSubtext">0% ของแผนกทั้งหมด</div>
+    </div>
+  </div>
+
+  <!-- Main Department Summary Chart -->
+  <div class="chart-container-card">
+    <div class="chart-card-header">
+      <div>
+        <div class="chart-card-title">
+          <span>📊 แผนภูมิสรุปผลการตรวจรถแยกตามแผนก</span>
+          <span class="dept-badge" id="chartSelectedMonthBadge">เดือนตุลาคม</span>
+        </div>
+        <div class="chart-card-subtitle">ตัวเลขบนแท่งกราฟคือ % อัตราการตรวจรถ · คลิกที่แท่งเพื่อกรองดูรถในแผนกนั้น</div>
+      </div>
+      <div class="chart-view-toggle">
+        <button class="chart-view-btn active" id="btnMetricPct" onclick="setChartMetric('pct')">% ตรวจรถ</button>
+        <button class="chart-view-btn" id="btnMetricDays" onclick="setChartMetric('days')">จำนวนวันตรวจ (วัน)</button>
+      </div>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="deptChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Secondary Charts Grid -->
+  <div class="secondary-charts-grid">
+    
+    <!-- 12-Month Trend Line Chart -->
+    <div class="chart-container-card" style="margin-bottom: 0;">
+      <div class="chart-card-header">
+        <div>
+          <div class="chart-card-title">📈 แนวโน้มผลการตรวจรถ 12 เดือน (ม.ค. - ธ.ค.)</div>
+          <div class="chart-card-subtitle">เปรียบเทียบภาพรวมองค์กร กับแผนกที่เลือก</div>
+        </div>
+      </div>
+      <div class="chart-wrapper" style="height: 280px;">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Tier Donut Chart -->
+    <div class="chart-container-card" style="margin-bottom: 0;">
+      <div class="chart-card-header">
+        <div>
+          <div class="chart-card-title">🎯 สัดส่วนผลการปฏิบัติงาน</div>
+          <div class="chart-card-subtitle">จำแนกตามเกณฑ์มาตรฐาน</div>
+        </div>
+      </div>
+      <div class="chart-wrapper" style="height: 280px;">
+        <canvas id="tierChart"></canvas>
+      </div>
     </div>
 
   </div>
 
-  <footer>ระบบภายใน · ผมต.กฟส.นธ.</footer>
+  <!-- Vehicle Details Table -->
+  <div class="table-container-card">
+    <div class="table-controls">
+      <div>
+        <div class="chart-card-title">🚗 รายละเอียดผลการตรวจรถรายคัน</div>
+        <div class="chart-card-subtitle" id="tableSubtitle">แสดงรถทั้งหมด 90 คัน</div>
+      </div>
+      
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <!-- Filter Tabs -->
+        <div class="table-tabs">
+          <button class="table-tab active" data-status="ALL" onclick="setStatusTab('ALL')">ทั้งหมด</button>
+          <button class="table-tab" data-status="PASSED" onclick="setStatusTab('PASSED')">ผ่านเกณฑ์ (≥80%)</button>
+          <button class="table-tab" data-status="MEDIUM" onclick="setStatusTab('MEDIUM')">ปานกลาง (50-79%)</button>
+          <button class="table-tab" data-status="ALERT" onclick="setStatusTab('ALERT')">ต้องติดตาม (&lt;50%)</button>
+        </div>
+
+        <div class="search-box">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </span>
+          <input type="text" id="searchInput" class="form-control" placeholder="ค้นหาทะเบียน หรือแผนก..." oninput="onFilterChange()">
+        </div>
+
+        <button class="nav-btn" onclick="exportCSV()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          ส่งออก CSV
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="data-table" id="dataTable">
+        <thead>
+          <tr>
+            <th style="width: 50px;">#</th>
+            <th>สังกัด / กฟฟ.</th>
+            <th>แผนก</th>
+            <th>ทะเบียน กฟฟ.</th>
+            <th style="text-align: right;">วันทำงาน</th>
+            <th style="text-align: right;">วันตรวจจริง</th>
+            <th style="width: 220px;">อัตราการตรวจ (%)</th>
+            <th style="text-align: center;">สถานะ</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="dashboard-footer">
+    <p>ระบบติดตามผลการตรวจรถยนต์ก่อนปฏิบัติงาน · การไฟฟ้าส่วนภูมิภาค จังหวัดนราธิวาส (กฟจ.นธ.)</p>
+    <p style="margin-top: 4px; font-size: 0.75rem;">เชื่อมต่อข้อมูลแบบเรียลไทม์ผ่าน Google Sheets API</p>
+  </footer>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span id="toastIcon">ℹ️</span>
+  <span id="toastMsg">แจ้งเตือน</span>
 </div>
 
 <script>
-(function () {
-  "use strict";
+// Embedded Snapshot Dataset for instantaneous zero-latency load & offline resilience
+const SNAPSHOT_DATA = {"updatedAt": "2026-10-27T09:28:00+07:00", "months": ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"], "vehicles": [{"id": 1, "plate": "6 ขฒ 6170 กทม.", "dept": "กบห.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 1.0, "pct": 4.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "เมษายน": {"work": 18.0, "inspect": 4.0, "pct": 22.22}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 2, "plate": "4 ขอ 7094 กทม.", "dept": "กบห.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 3, "plate": "8ขข 8620 กทม.", "dept": "กบห.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 1.0, "pct": 5.26}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 4, "plate": "2 ขด 2570 กทม.", "dept": "กบห.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 1.0, "pct": 7.14}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 5, "plate": "3 ฒภ 5241 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 5.0, "pct": 22.73}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "เมษายน": {"work": 18.0, "inspect": 22.0, "pct": 122.22}, "พฤษภาคม": {"work": 14.0, "inspect": 24.0, "pct": 171.43}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "สิงหาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กันยายน": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "ตุลาคม": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 6, "plate": "3 ฒภ 5241 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 5.0, "pct": 22.73}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "เมษายน": {"work": 18.0, "inspect": 22.0, "pct": 122.22}, "พฤษภาคม": {"work": 14.0, "inspect": 24.0, "pct": 171.43}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "สิงหาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กันยายน": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "ตุลาคม": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 7, "plate": "80-8386 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 21.0, "pct": 95.45}, "กุมภาพันธ์": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "มีนาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "เมษายน": {"work": 18.0, "inspect": 17.0, "pct": 94.44}, "พฤษภาคม": {"work": 14.0, "inspect": 14.0, "pct": 100.0}, "มิถุนายน": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "กรกฎาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "สิงหาคม": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "กันยายน": {"work": 22.0, "inspect": 9.0, "pct": 40.91}, "ตุลาคม": {"work": 19.0, "inspect": 6.0, "pct": 31.58}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 8, "plate": "80-6940 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 9, "plate": "80-3129 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 14.0, "pct": 63.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 16.0, "pct": 84.21}, "มีนาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "เมษายน": {"work": 18.0, "inspect": 20.0, "pct": 111.11}, "พฤษภาคม": {"work": 14.0, "inspect": 17.0, "pct": 121.43}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 10, "plate": "80-4212 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 1.0, "pct": 4.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "เมษายน": {"work": 18.0, "inspect": 1.0, "pct": 5.56}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 11, "plate": "80-6381 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 3.0, "pct": 13.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 1.0, "pct": 5.26}, "มีนาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "เมษายน": {"work": 18.0, "inspect": 10.0, "pct": 55.56}, "พฤษภาคม": {"work": 14.0, "inspect": 7.0, "pct": 50.0}, "มิถุนายน": {"work": 20.0, "inspect": 3.0, "pct": 15.0}, "กรกฎาคม": {"work": 20.0, "inspect": 3.0, "pct": 15.0}, "สิงหาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 12, "plate": "80-6382 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 4.0, "pct": 28.57}, "มิถุนายน": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "กรกฎาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "สิงหาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กันยายน": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "ตุลาคม": {"work": 19.0, "inspect": 15.0, "pct": 78.95}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 13, "plate": "กง-1816 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 3.0, "pct": 13.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 5.0, "pct": 26.32}, "มีนาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "เมษายน": {"work": 18.0, "inspect": 5.0, "pct": 27.78}, "พฤษภาคม": {"work": 14.0, "inspect": 9.0, "pct": 64.29}, "มิถุนายน": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "กรกฎาคม": {"work": 20.0, "inspect": 2.0, "pct": 10.0}, "สิงหาคม": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "กันยายน": {"work": 22.0, "inspect": 4.0, "pct": 18.18}, "ตุลาคม": {"work": 19.0, "inspect": 3.0, "pct": 15.79}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 14, "plate": "บฉ7078 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 1.0, "pct": 5.26}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 10.0, "pct": 55.56}, "พฤษภาคม": {"work": 14.0, "inspect": 13.0, "pct": 92.86}, "มิถุนายน": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 15, "plate": "80-4436 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 3.0, "pct": 13.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 10.0, "pct": 52.63}, "มีนาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "เมษายน": {"work": 18.0, "inspect": 16.0, "pct": 88.89}, "พฤษภาคม": {"work": 14.0, "inspect": 4.0, "pct": 28.57}, "มิถุนายน": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "กรกฎาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "สิงหาคม": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "กันยายน": {"work": 22.0, "inspect": 8.0, "pct": 36.36}, "ตุลาคม": {"work": 19.0, "inspect": 21.0, "pct": 110.53}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 16, "plate": "80-5519 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 8.0, "pct": 36.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 12.0, "pct": 66.67}, "พฤษภาคม": {"work": 14.0, "inspect": 11.0, "pct": 78.57}, "มิถุนายน": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "กรกฎาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "สิงหาคม": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "กันยายน": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "ตุลาคม": {"work": 19.0, "inspect": 4.0, "pct": 21.05}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 17, "plate": "80-7334 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 21.0, "pct": 110.53}, "มีนาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "เมษายน": {"work": 18.0, "inspect": 21.0, "pct": 116.67}, "พฤษภาคม": {"work": 14.0, "inspect": 22.0, "pct": 157.14}, "มิถุนายน": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กรกฎาคม": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "สิงหาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กันยายน": {"work": 22.0, "inspect": 10.0, "pct": 45.45}, "ตุลาคม": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 18, "plate": "54-7868 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 25.0, "pct": 113.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 16.0, "pct": 84.21}, "มีนาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "เมษายน": {"work": 18.0, "inspect": 24.0, "pct": 133.33}, "พฤษภาคม": {"work": 14.0, "inspect": 24.0, "pct": 171.43}, "มิถุนายน": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "กรกฎาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "สิงหาคม": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "กันยายน": {"work": 22.0, "inspect": 13.0, "pct": 59.09}, "ตุลาคม": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 19, "plate": "80-8478 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 24.0, "pct": 126.32}, "มีนาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "เมษายน": {"work": 18.0, "inspect": 23.0, "pct": 127.78}, "พฤษภาคม": {"work": 14.0, "inspect": 23.0, "pct": 164.29}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "สิงหาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กันยายน": {"work": 22.0, "inspect": 18.0, "pct": 81.82}, "ตุลาคม": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 20, "plate": "บร-7311 สข.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 2.0, "pct": 10.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 21.0, "pct": 95.45}, "ตุลาคม": {"work": 19.0, "inspect": 5.0, "pct": 26.32}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 21, "plate": "80-5514 นธ.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 22, "plate": "8ขข 8625 กทม.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 23, "plate": "1 ขฮ 4012 กทม.", "dept": "ผปบ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 16.0, "pct": 88.89}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 24, "plate": "1 นจ 9073 กทม", "dept": "ผบร.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 18.0, "pct": 81.82}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 11.0, "pct": 55.0}, "เมษายน": {"work": 18.0, "inspect": 9.0, "pct": 50.0}, "พฤษภาคม": {"work": 14.0, "inspect": 13.0, "pct": 92.86}, "มิถุนายน": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กรกฎาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "สิงหาคม": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "กันยายน": {"work": 22.0, "inspect": 21.0, "pct": 95.45}, "ตุลาคม": {"work": 19.0, "inspect": 13.0, "pct": 68.42}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 25, "plate": "3 ฒษ 8709 กทม.", "dept": "ผกส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 26, "plate": "บฉ 7077 นธ.", "dept": "ผกส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 2.0, "pct": 10.53}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 1.0, "pct": 5.56}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 2.0, "pct": 10.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 27, "plate": "80-3629 นธ.", "dept": "ผกส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 3.0, "pct": 13.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 2.0, "pct": 10.53}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 13.0, "pct": 72.22}, "พฤษภาคม": {"work": 14.0, "inspect": 15.0, "pct": 107.14}, "มิถุนายน": {"work": 20.0, "inspect": 2.0, "pct": 10.0}, "กรกฎาคม": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "สิงหาคม": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "กันยายน": {"work": 22.0, "inspect": 15.0, "pct": 68.18}, "ตุลาคม": {"work": 19.0, "inspect": 8.0, "pct": 42.11}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 28, "plate": "80-6630 นธ.", "dept": "ผกส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "เมษายน": {"work": 18.0, "inspect": 18.0, "pct": 100.0}, "พฤษภาคม": {"work": 14.0, "inspect": 13.0, "pct": 92.86}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "สิงหาคม": {"work": 20.0, "inspect": 8.0, "pct": 40.0}, "กันยายน": {"work": 22.0, "inspect": 8.0, "pct": 36.36}, "ตุลาคม": {"work": 19.0, "inspect": 6.0, "pct": 31.58}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 29, "plate": "80-5993 นธ.", "dept": "ผกส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 22.0, "pct": 115.79}, "มีนาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "เมษายน": {"work": 18.0, "inspect": 19.0, "pct": 105.56}, "พฤษภาคม": {"work": 14.0, "inspect": 23.0, "pct": 164.29}, "มิถุนายน": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 30, "plate": "บฉ7080 นธ.", "dept": "ผกส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 3.0, "pct": 13.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 4.0, "pct": 20.0}, "เมษายน": {"work": 18.0, "inspect": 4.0, "pct": 22.22}, "พฤษภาคม": {"work": 14.0, "inspect": 8.0, "pct": 57.14}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 4.0, "pct": 20.0}, "สิงหาคม": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "กันยายน": {"work": 22.0, "inspect": 4.0, "pct": 18.18}, "ตุลาคม": {"work": 19.0, "inspect": 1.0, "pct": 5.26}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 31, "plate": "กง 1815 นธ.", "dept": "ผบส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 16.0, "pct": 72.73}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "เมษายน": {"work": 18.0, "inspect": 14.0, "pct": 77.78}, "พฤษภาคม": {"work": 14.0, "inspect": 12.0, "pct": 85.71}, "มิถุนายน": {"work": 20.0, "inspect": 13.0, "pct": 65.0}, "กรกฎาคม": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "สิงหาคม": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "กันยายน": {"work": 22.0, "inspect": 18.0, "pct": 81.82}, "ตุลาคม": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 32, "plate": "2 ขด 2570 กทม.", "dept": "ผบส.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 33, "plate": "80-5348 นธ.", "dept": "ผคพ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 16.0, "pct": 72.73}, "กุมภาพันธ์": {"work": 19.0, "inspect": 16.0, "pct": 84.21}, "มีนาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "เมษายน": {"work": 18.0, "inspect": 13.0, "pct": 72.22}, "พฤษภาคม": {"work": 14.0, "inspect": 7.0, "pct": 50.0}, "มิถุนายน": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "กรกฎาคม": {"work": 20.0, "inspect": 11.0, "pct": 55.0}, "สิงหาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "กันยายน": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "ตุลาคม": {"work": 19.0, "inspect": 11.0, "pct": 57.89}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 34, "plate": "รถยก", "dept": "ผคพ.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "มีนาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "เมษายน": {"work": 18.0, "inspect": 18.0, "pct": 100.0}, "พฤษภาคม": {"work": 14.0, "inspect": 17.0, "pct": 121.43}, "มิถุนายน": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "กรกฎาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "สิงหาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "กันยายน": {"work": 22.0, "inspect": 21.0, "pct": 95.45}, "ตุลาคม": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 35, "plate": "บฉ7079 นธ.", "dept": "ผมต.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 2.0, "pct": 9.09}, "กุมภาพันธ์": {"work": 19.0, "inspect": 1.0, "pct": 5.26}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 16.0, "pct": 88.89}, "พฤษภาคม": {"work": 14.0, "inspect": 20.0, "pct": 142.86}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 28.0, "pct": 140.0}, "สิงหาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กันยายน": {"work": 22.0, "inspect": 16.0, "pct": 72.73}, "ตุลาคม": {"work": 19.0, "inspect": 7.0, "pct": 36.84}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 36, "plate": "2 ขศ 9017 กทม.", "dept": "ผมต.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "มีนาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "เมษายน": {"work": 18.0, "inspect": 19.0, "pct": 105.56}, "พฤษภาคม": {"work": 14.0, "inspect": 28.0, "pct": 200.0}, "มิถุนายน": {"work": 20.0, "inspect": 29.0, "pct": 145.0}, "กรกฎาคม": {"work": 20.0, "inspect": 28.0, "pct": 140.0}, "สิงหาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กันยายน": {"work": 22.0, "inspect": 27.0, "pct": 122.73}, "ตุลาคม": {"work": 19.0, "inspect": 29.0, "pct": 152.63}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 37, "plate": "80-5930 นธ.", "dept": "ผมต.นธ.", "office": "กฟจ.นราธิวาส", "months": {"มกราคม": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 16.0, "pct": 84.21}, "มีนาคม": {"work": 20.0, "inspect": 11.0, "pct": 55.0}, "เมษายน": {"work": 18.0, "inspect": 20.0, "pct": 111.11}, "พฤษภาคม": {"work": 14.0, "inspect": 29.0, "pct": 207.14}, "มิถุนายน": {"work": 20.0, "inspect": 29.0, "pct": 145.0}, "กรกฎาคม": {"work": 20.0, "inspect": 26.0, "pct": 130.0}, "สิงหาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กันยายน": {"work": 22.0, "inspect": 28.0, "pct": 127.27}, "ตุลาคม": {"work": 19.0, "inspect": 24.0, "pct": 126.32}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 38, "plate": "80-5516 นธ.", "dept": "บจ.", "office": "กฟย.บาเจาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 24.0, "pct": 133.33}, "พฤษภาคม": {"work": 14.0, "inspect": 24.0, "pct": 171.43}, "มิถุนายน": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "กรกฎาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "สิงหาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "กันยายน": {"work": 22.0, "inspect": 24.0, "pct": 109.09}, "ตุลาคม": {"work": 19.0, "inspect": 21.0, "pct": 110.53}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 39, "plate": "4 ขน 4855 กทม.", "dept": "บจ.", "office": "กฟย.บาเจาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 10.0, "pct": 52.63}, "มีนาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "เมษายน": {"work": 18.0, "inspect": 4.0, "pct": 22.22}, "พฤษภาคม": {"work": 14.0, "inspect": 14.0, "pct": 100.0}, "มิถุนายน": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กรกฎาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "สิงหาคม": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "กันยายน": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "ตุลาคม": {"work": 19.0, "inspect": 11.0, "pct": 57.89}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 40, "plate": "80-6380 นธ.", "dept": "บจ.", "office": "กฟย.บาเจาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "กุมภาพันธ์": {"work": 19.0, "inspect": 24.0, "pct": 126.32}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 22.0, "pct": 122.22}, "พฤษภาคม": {"work": 14.0, "inspect": 23.0, "pct": 164.29}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กันยายน": {"work": 22.0, "inspect": 25.0, "pct": 113.64}, "ตุลาคม": {"work": 19.0, "inspect": 21.0, "pct": 110.53}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 41, "plate": "2 ฒส 9998 กทม.", "dept": "ยง.", "office": "กฟย.ยี่งอ", "months": {"มกราคม": {"work": 22.0, "inspect": 18.0, "pct": 81.82}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "เมษายน": {"work": 18.0, "inspect": 16.0, "pct": 88.89}, "พฤษภาคม": {"work": 14.0, "inspect": 15.0, "pct": 107.14}, "มิถุนายน": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กรกฎาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "สิงหาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "กันยายน": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "ตุลาคม": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 42, "plate": "บต 629 นธ.", "dept": "ยง.", "office": "กฟย.ยี่งอ", "months": {"มกราคม": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "มีนาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "เมษายน": {"work": 18.0, "inspect": 16.0, "pct": 88.89}, "พฤษภาคม": {"work": 14.0, "inspect": 16.0, "pct": 114.29}, "มิถุนายน": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 24.0, "pct": 109.09}, "ตุลาคม": {"work": 19.0, "inspect": 21.0, "pct": 110.53}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 43, "plate": "80-5518 นธ.", "dept": "ยง.", "office": "กฟย.ยี่งอ", "months": {"มกราคม": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "มีนาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "เมษายน": {"work": 18.0, "inspect": 23.0, "pct": 127.78}, "พฤษภาคม": {"work": 14.0, "inspect": 17.0, "pct": 121.43}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 21.0, "pct": 110.53}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 44, "plate": "กง-1787 นธ.", "dept": "ผบค.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "เมษายน": {"work": 18.0, "inspect": 10.0, "pct": 55.56}, "พฤษภาคม": {"work": 14.0, "inspect": 9.0, "pct": 64.29}, "มิถุนายน": {"work": 20.0, "inspect": 13.0, "pct": 65.0}, "กรกฎาคม": {"work": 20.0, "inspect": 13.0, "pct": 65.0}, "สิงหาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กันยายน": {"work": 22.0, "inspect": 14.0, "pct": 63.64}, "ตุลาคม": {"work": 19.0, "inspect": 10.0, "pct": 52.63}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 45, "plate": "80-6314 นธ.", "dept": "ผมต.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 46, "plate": "กข-9116 นธ.", "dept": "ผมต.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 13.0, "pct": 59.09}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 3.0, "pct": 15.0}, "เมษายน": {"work": 18.0, "inspect": 12.0, "pct": 66.67}, "พฤษภาคม": {"work": 14.0, "inspect": 3.0, "pct": 21.43}, "มิถุนายน": {"work": 20.0, "inspect": 7.0, "pct": 35.0}, "กรกฎาคม": {"work": 20.0, "inspect": 8.0, "pct": 40.0}, "สิงหาคม": {"work": 20.0, "inspect": 7.0, "pct": 35.0}, "กันยายน": {"work": 22.0, "inspect": 6.0, "pct": 27.27}, "ตุลาคม": {"work": 19.0, "inspect": 6.0, "pct": 31.58}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 47, "plate": "5 ขท 2983 กทม.", "dept": "ผบง.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 8.0, "pct": 36.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 10.0, "pct": 52.63}, "มีนาคม": {"work": 20.0, "inspect": 8.0, "pct": 40.0}, "เมษายน": {"work": 18.0, "inspect": 7.0, "pct": 38.89}, "พฤษภาคม": {"work": 14.0, "inspect": 2.0, "pct": 14.29}, "มิถุนายน": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กรกฎาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "ตุลาคม": {"work": 19.0, "inspect": 7.0, "pct": 36.84}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 48, "plate": "3 ฒห 5809 กทม.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 12.0, "pct": 54.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 10.0, "pct": 52.63}, "มีนาคม": {"work": 20.0, "inspect": 7.0, "pct": 35.0}, "เมษายน": {"work": 18.0, "inspect": 8.0, "pct": 44.44}, "พฤษภาคม": {"work": 14.0, "inspect": 1.0, "pct": 7.14}, "มิถุนายน": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กรกฎาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "สิงหาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กันยายน": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "ตุลาคม": {"work": 19.0, "inspect": 13.0, "pct": 68.42}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 49, "plate": "80-3623 นธ.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "สิงหาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กันยายน": {"work": 22.0, "inspect": 14.0, "pct": 63.64}, "ตุลาคม": {"work": 19.0, "inspect": 6.0, "pct": 31.58}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 50, "plate": "80-4880 นธ.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 12.0, "pct": 54.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 10.0, "pct": 52.63}, "มีนาคม": {"work": 20.0, "inspect": 2.0, "pct": 10.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 51, "plate": "80-7275 นธ.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 13.0, "pct": 65.0}, "เมษายน": {"work": 18.0, "inspect": 16.0, "pct": 88.89}, "พฤษภาคม": {"work": 14.0, "inspect": 13.0, "pct": 92.86}, "มิถุนายน": {"work": 20.0, "inspect": 13.0, "pct": 65.0}, "กรกฎาคม": {"work": 20.0, "inspect": 3.0, "pct": 15.0}, "สิงหาคม": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "กันยายน": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 52, "plate": "80-5045 นธ.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 11.0, "pct": 57.89}, "มีนาคม": {"work": 20.0, "inspect": 10.0, "pct": 50.0}, "เมษายน": {"work": 18.0, "inspect": 12.0, "pct": 66.67}, "พฤษภาคม": {"work": 14.0, "inspect": 2.0, "pct": 14.29}, "มิถุนายน": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กันยายน": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "ตุลาคม": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 53, "plate": "80-7381 นธ.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 5.0, "pct": 22.73}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "เมษายน": {"work": 18.0, "inspect": 9.0, "pct": 50.0}, "พฤษภาคม": {"work": 14.0, "inspect": 2.0, "pct": 14.29}, "มิถุนายน": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "กรกฎาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "สิงหาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "กันยายน": {"work": 22.0, "inspect": 17.0, "pct": 77.27}, "ตุลาคม": {"work": 19.0, "inspect": 13.0, "pct": 68.42}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 54, "plate": "80-7855 นธ.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 12.0, "pct": 54.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "เมษายน": {"work": 18.0, "inspect": 11.0, "pct": 61.11}, "พฤษภาคม": {"work": 14.0, "inspect": 2.0, "pct": 14.29}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 7.0, "pct": 36.84}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 55, "plate": "80-6313 นธ.", "dept": "ผปร.รง.", "office": "กฟส.ระแงะ", "months": {"มกราคม": {"work": 22.0, "inspect": 4.0, "pct": 18.18}, "กุมภาพันธ์": {"work": 19.0, "inspect": 7.0, "pct": 36.84}, "มีนาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "เมษายน": {"work": 18.0, "inspect": 15.0, "pct": 83.33}, "พฤษภาคม": {"work": 14.0, "inspect": 13.0, "pct": 92.86}, "มิถุนายน": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "กรกฎาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "สิงหาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กันยายน": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "ตุลาคม": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 56, "plate": "80-5514 นธ.", "dept": "จน.", "office": "กฟย.จะแนะ", "months": {"มกราคม": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "เมษายน": {"work": 18.0, "inspect": 21.0, "pct": 116.67}, "พฤษภาคม": {"work": 14.0, "inspect": 22.0, "pct": 157.14}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 57, "plate": "บฉ 7710 นธ.", "dept": "จน.", "office": "กฟย.จะแนะ", "months": {"มกราคม": {"work": 22.0, "inspect": 2.0, "pct": 9.09}, "กุมภาพันธ์": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 18.0, "pct": 100.0}, "พฤษภาคม": {"work": 14.0, "inspect": 18.0, "pct": 128.57}, "มิถุนายน": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 58, "plate": "4 ขน 4862 กทม.", "dept": "จน.", "office": "กฟย.จะแนะ", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 1.0, "pct": 5.26}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 12.0, "pct": 66.67}, "พฤษภาคม": {"work": 14.0, "inspect": 3.0, "pct": 21.43}, "มิถุนายน": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "กรกฎาคม": {"work": 20.0, "inspect": 15.0, "pct": 75.0}, "สิงหาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กันยายน": {"work": 22.0, "inspect": 27.0, "pct": 122.73}, "ตุลาคม": {"work": 19.0, "inspect": 16.0, "pct": 84.21}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 59, "plate": "3 ฒบ 8308 กทม.", "dept": "จน.", "office": "กฟย.จะแนะ", "months": {"มกราคม": {"work": 22.0, "inspect": 9.0, "pct": 40.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 16.0, "pct": 84.21}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 19.0, "pct": 105.56}, "พฤษภาคม": {"work": 14.0, "inspect": 15.0, "pct": 107.14}, "มิถุนายน": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กรกฎาคม": {"work": 20.0, "inspect": 25.0, "pct": 125.0}, "สิงหาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กันยายน": {"work": 22.0, "inspect": 25.0, "pct": 113.64}, "ตุลาคม": {"work": 19.0, "inspect": 24.0, "pct": 126.32}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 60, "plate": "2 ขศ 9003 กทม.", "dept": "จอ.", "office": "กฟย.เจาะไอร้อง", "months": {"มกราคม": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 18.0, "pct": 100.0}, "พฤษภาคม": {"work": 14.0, "inspect": 19.0, "pct": 135.71}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 22.0, "pct": 115.79}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 61, "plate": "80-5515 นธ.", "dept": "จอ.", "office": "กฟย.เจาะไอร้อง", "months": {"มกราคม": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 18.0, "pct": 100.0}, "พฤษภาคม": {"work": 14.0, "inspect": 18.0, "pct": 128.57}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 22.0, "pct": 115.79}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 62, "plate": "บท 775 นธ.", "dept": "จอ.", "office": "กฟย.เจาะไอร้อง", "months": {"มกราคม": {"work": 22.0, "inspect": 20.0, "pct": 90.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 19.0, "pct": 105.56}, "พฤษภาคม": {"work": 14.0, "inspect": 18.0, "pct": 128.57}, "มิถุนายน": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กรกฎาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "สิงหาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กันยายน": {"work": 22.0, "inspect": 25.0, "pct": 113.64}, "ตุลาคม": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 63, "plate": "2 ขศ 8810 กทม.", "dept": "ผบง.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 9.0, "pct": 40.91}, "กุมภาพันธ์": {"work": 19.0, "inspect": 15.0, "pct": 78.95}, "มีนาคม": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "เมษายน": {"work": 18.0, "inspect": 12.0, "pct": 66.67}, "พฤษภาคม": {"work": 14.0, "inspect": 16.0, "pct": 114.29}, "มิถุนายน": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "กรกฎาคม": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "สิงหาคม": {"work": 20.0, "inspect": 16.0, "pct": 80.0}, "กันยายน": {"work": 22.0, "inspect": 13.0, "pct": 59.09}, "ตุลาคม": {"work": 19.0, "inspect": 9.0, "pct": 47.37}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 64, "plate": "4 ขน 4870 กทม.", "dept": "ผบค.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "มีนาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "เมษายน": {"work": 18.0, "inspect": 15.0, "pct": 83.33}, "พฤษภาคม": {"work": 14.0, "inspect": 17.0, "pct": 121.43}, "มิถุนายน": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กรกฎาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "สิงหาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กันยายน": {"work": 22.0, "inspect": 17.0, "pct": 77.27}, "ตุลาคม": {"work": 19.0, "inspect": 13.0, "pct": 68.42}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 65, "plate": "กข 9125 นธ.", "dept": "ผมต.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 2.0, "pct": 9.09}, "กุมภาพันธ์": {"work": 19.0, "inspect": 15.0, "pct": 78.95}, "มีนาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "เมษายน": {"work": 18.0, "inspect": 22.0, "pct": 122.22}, "พฤษภาคม": {"work": 14.0, "inspect": 15.0, "pct": 107.14}, "มิถุนายน": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "กรกฎาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "สิงหาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กันยายน": {"work": 22.0, "inspect": 13.0, "pct": 59.09}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 66, "plate": "บฉ 7347 นธ.", "dept": "ผบค.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 14.0, "pct": 63.64}, "กุมภาพันธ์": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "มีนาคม": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "เมษายน": {"work": 18.0, "inspect": 1.0, "pct": 5.56}, "พฤษภาคม": {"work": 14.0, "inspect": 2.0, "pct": 14.29}, "มิถุนายน": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 67, "plate": "5 ขท 3010 กทม.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 7.0, "pct": 31.82}, "กุมภาพันธ์": {"work": 19.0, "inspect": 1.0, "pct": 5.26}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "สิงหาคม": {"work": 20.0, "inspect": 2.0, "pct": 10.0}, "กันยายน": {"work": 22.0, "inspect": 9.0, "pct": 40.91}, "ตุลาคม": {"work": 19.0, "inspect": 3.0, "pct": 15.79}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 68, "plate": "80-6831 นธ.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 7.0, "pct": 31.82}, "กุมภาพันธ์": {"work": 19.0, "inspect": 6.0, "pct": 31.58}, "มีนาคม": {"work": 20.0, "inspect": 3.0, "pct": 15.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 69, "plate": "80-4912 นธ.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 10.0, "pct": 45.45}, "กุมภาพันธ์": {"work": 19.0, "inspect": 10.0, "pct": 52.63}, "มีนาคม": {"work": 20.0, "inspect": 2.0, "pct": 10.0}, "เมษายน": {"work": 18.0, "inspect": 10.0, "pct": 55.56}, "พฤษภาคม": {"work": 14.0, "inspect": 8.0, "pct": 57.14}, "มิถุนายน": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 70, "plate": "80-6320 นธ.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 6.0, "pct": 27.27}, "กุมภาพันธ์": {"work": 19.0, "inspect": 6.0, "pct": 31.58}, "มีนาคม": {"work": 20.0, "inspect": 4.0, "pct": 20.0}, "เมษายน": {"work": 18.0, "inspect": 4.0, "pct": 22.22}, "พฤษภาคม": {"work": 14.0, "inspect": 12.0, "pct": 85.71}, "มิถุนายน": {"work": 20.0, "inspect": 7.0, "pct": 35.0}, "กรกฎาคม": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "สิงหาคม": {"work": 20.0, "inspect": 3.0, "pct": 15.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 2.0, "pct": 10.53}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 71, "plate": "80-7269 นธ.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 24.0, "pct": 109.09}, "กุมภาพันธ์": {"work": 19.0, "inspect": 22.0, "pct": 115.79}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 24.0, "pct": 133.33}, "พฤษภาคม": {"work": 14.0, "inspect": 24.0, "pct": 171.43}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 26.0, "pct": 130.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 23.0, "pct": 121.05}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 72, "plate": "80-7656 นธ.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 23.0, "pct": 104.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 22.0, "pct": 115.79}, "มีนาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "เมษายน": {"work": 18.0, "inspect": 21.0, "pct": 116.67}, "พฤษภาคม": {"work": 14.0, "inspect": 22.0, "pct": 157.14}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "สิงหาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กันยายน": {"work": 22.0, "inspect": 21.0, "pct": 95.45}, "ตุลาคม": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 73, "plate": "9 ฒบ 8313 กทม.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "มีนาคม": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "เมษายน": {"work": 18.0, "inspect": 19.0, "pct": 105.56}, "พฤษภาคม": {"work": 14.0, "inspect": 16.0, "pct": 114.29}, "มิถุนายน": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "กรกฎาคม": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "สิงหาคม": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "กันยายน": {"work": 22.0, "inspect": 12.0, "pct": 54.55}, "ตุลาคม": {"work": 19.0, "inspect": 11.0, "pct": 57.89}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 74, "plate": "80-7656 นธ.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 23.0, "pct": 104.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 22.0, "pct": 115.79}, "มีนาคม": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "เมษายน": {"work": 18.0, "inspect": 21.0, "pct": 116.67}, "พฤษภาคม": {"work": 14.0, "inspect": 22.0, "pct": 157.14}, "มิถุนายน": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กรกฎาคม": {"work": 20.0, "inspect": 20.0, "pct": 100.0}, "สิงหาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กันยายน": {"work": 22.0, "inspect": 21.0, "pct": 95.45}, "ตุลาคม": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 75, "plate": "บฉ 7359 นธ.", "dept": "ผปร.รส.", "office": "กฟส.รือเสาะ", "months": {"มกราคม": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 76, "plate": "80-5631 นธ.", "dept": "ศสค.", "office": "กฟย.ศรีสาคร", "months": {"มกราคม": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "มีนาคม": {"work": 20.0, "inspect": 18.0, "pct": 90.0}, "เมษายน": {"work": 18.0, "inspect": 18.0, "pct": 100.0}, "พฤษภาคม": {"work": 14.0, "inspect": 24.0, "pct": 171.43}, "มิถุนายน": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "กรกฎาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "สิงหาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กันยายน": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "ตุลาคม": {"work": 19.0, "inspect": 21.0, "pct": 110.53}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 77, "plate": "4 ขน 4709 กทม.", "dept": "ศสค.", "office": "กฟย.ศรีสาคร", "months": {"มกราคม": {"work": 22.0, "inspect": 22.0, "pct": 100.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "เมษายน": {"work": 18.0, "inspect": 12.0, "pct": 66.67}, "พฤษภาคม": {"work": 14.0, "inspect": 8.0, "pct": 57.14}, "มิถุนายน": {"work": 20.0, "inspect": 12.0, "pct": 60.0}, "กรกฎาคม": {"work": 20.0, "inspect": 8.0, "pct": 40.0}, "สิงหาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "กันยายน": {"work": 22.0, "inspect": 6.0, "pct": 27.27}, "ตุลาคม": {"work": 19.0, "inspect": 9.0, "pct": 47.37}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 78, "plate": "3 ฒบ 8314 กทม.", "dept": "ศสค.", "office": "กฟย.ศรีสาคร", "months": {"มกราคม": {"work": 22.0, "inspect": 52.0, "pct": 236.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 42.0, "pct": 221.05}, "มีนาคม": {"work": 20.0, "inspect": 42.0, "pct": 210.0}, "เมษายน": {"work": 18.0, "inspect": 50.0, "pct": 277.78}, "พฤษภาคม": {"work": 14.0, "inspect": 39.0, "pct": 278.57}, "มิถุนายน": {"work": 20.0, "inspect": 42.0, "pct": 210.0}, "กรกฎาคม": {"work": 20.0, "inspect": 36.0, "pct": 180.0}, "สิงหาคม": {"work": 20.0, "inspect": 44.0, "pct": 220.0}, "กันยายน": {"work": 22.0, "inspect": 32.0, "pct": 145.45}, "ตุลาคม": {"work": 19.0, "inspect": 43.0, "pct": 226.32}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 79, "plate": "2 ขศ 8821 กทม.", "dept": "ผบง.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 12.0, "pct": 54.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "เมษายน": {"work": 18.0, "inspect": 1.0, "pct": 5.56}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 1.0, "pct": 5.0}, "กันยายน": {"work": 22.0, "inspect": 18.0, "pct": 81.82}, "ตุลาคม": {"work": 19.0, "inspect": 14.0, "pct": 73.68}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 80, "plate": "2 ฒห 10 กทม.", "dept": "ผบง.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 10.0, "pct": 45.45}, "กุมภาพันธ์": {"work": 19.0, "inspect": 12.0, "pct": 63.16}, "มีนาคม": {"work": 20.0, "inspect": 4.0, "pct": 20.0}, "เมษายน": {"work": 18.0, "inspect": 6.0, "pct": 33.33}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 81, "plate": "80-7010 นธ.", "dept": "ผปร.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 17.0, "pct": 89.47}, "มีนาคม": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "เมษายน": {"work": 18.0, "inspect": 21.0, "pct": 116.67}, "พฤษภาคม": {"work": 14.0, "inspect": 21.0, "pct": 150.0}, "มิถุนายน": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กรกฎาคม": {"work": 20.0, "inspect": 25.0, "pct": 125.0}, "สิงหาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กันยายน": {"work": 22.0, "inspect": 30.0, "pct": 136.36}, "ตุลาคม": {"work": 19.0, "inspect": 22.0, "pct": 115.79}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 82, "plate": "80-4096 นธ.", "dept": "ผปร.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 13.0, "pct": 59.09}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 11.0, "pct": 55.0}, "เมษายน": {"work": 18.0, "inspect": 17.0, "pct": 94.44}, "พฤษภาคม": {"work": 14.0, "inspect": 14.0, "pct": 100.0}, "มิถุนายน": {"work": 20.0, "inspect": 19.0, "pct": 95.0}, "กรกฎาคม": {"work": 20.0, "inspect": 17.0, "pct": 85.0}, "สิงหาคม": {"work": 20.0, "inspect": 25.0, "pct": 125.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 83, "plate": "80-6311 นธ.", "dept": "ผปร.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 8.0, "pct": 36.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 9.0, "pct": 47.37}, "มีนาคม": {"work": 20.0, "inspect": 8.0, "pct": 40.0}, "เมษายน": {"work": 18.0, "inspect": 21.0, "pct": 116.67}, "พฤษภาคม": {"work": 14.0, "inspect": 12.0, "pct": 85.71}, "มิถุนายน": {"work": 20.0, "inspect": 10.0, "pct": 50.0}, "กรกฎาคม": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "สิงหาคม": {"work": 20.0, "inspect": 25.0, "pct": 125.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 84, "plate": "80-5068 นธ.", "dept": "ผปร.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "เมษายน": {"work": 18.0, "inspect": 7.0, "pct": 38.89}, "พฤษภาคม": {"work": 14.0, "inspect": 20.0, "pct": 142.86}, "มิถุนายน": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กรกฎาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "สิงหาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กันยายน": {"work": 22.0, "inspect": 25.0, "pct": 113.64}, "ตุลาคม": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 85, "plate": "80-8183 นธ.", "dept": "ผปร.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 2.0, "pct": 9.09}, "กุมภาพันธ์": {"work": 19.0, "inspect": 2.0, "pct": 10.53}, "มีนาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "เมษายน": {"work": 18.0, "inspect": 12.0, "pct": 66.67}, "พฤษภาคม": {"work": 14.0, "inspect": 15.0, "pct": 107.14}, "มิถุนายน": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "กรกฎาคม": {"work": 20.0, "inspect": 9.0, "pct": 45.0}, "สิงหาคม": {"work": 20.0, "inspect": 14.0, "pct": 70.0}, "กันยายน": {"work": 22.0, "inspect": 29.0, "pct": 131.82}, "ตุลาคม": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 86, "plate": "3ฒบ 8305 กทม.", "dept": "ผปร.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 21.0, "pct": 95.45}, "กุมภาพันธ์": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "มีนาคม": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "เมษายน": {"work": 18.0, "inspect": 21.0, "pct": 116.67}, "พฤษภาคม": {"work": 14.0, "inspect": 23.0, "pct": 164.29}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 26.0, "pct": 130.0}, "สิงหาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "กันยายน": {"work": 22.0, "inspect": 24.0, "pct": 109.09}, "ตุลาคม": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 87, "plate": "80-6310 นธ.", "dept": "ผมต.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 23.0, "pct": 104.55}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 22.0, "pct": 110.0}, "เมษายน": {"work": 18.0, "inspect": 20.0, "pct": 111.11}, "พฤษภาคม": {"work": 14.0, "inspect": 21.0, "pct": 150.0}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 25.0, "pct": 125.0}, "กันยายน": {"work": 22.0, "inspect": 26.0, "pct": 118.18}, "ตุลาคม": {"work": 19.0, "inspect": 20.0, "pct": 105.26}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 88, "plate": "กข 9104 นธ.", "dept": "ผมต.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 11.0, "pct": 50.0}, "กุมภาพันธ์": {"work": 19.0, "inspect": 5.0, "pct": 26.32}, "มีนาคม": {"work": 20.0, "inspect": 4.0, "pct": 20.0}, "เมษายน": {"work": 18.0, "inspect": 22.0, "pct": 122.22}, "พฤษภาคม": {"work": 14.0, "inspect": 21.0, "pct": 150.0}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 25.0, "pct": 125.0}, "กันยายน": {"work": 22.0, "inspect": 24.0, "pct": 109.09}, "ตุลาคม": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 89, "plate": "กง 1779 นธ.", "dept": "ผบค.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 19.0, "pct": 86.36}, "กุมภาพันธ์": {"work": 19.0, "inspect": 18.0, "pct": 94.74}, "มีนาคม": {"work": 20.0, "inspect": 6.0, "pct": 30.0}, "เมษายน": {"work": 18.0, "inspect": 19.0, "pct": 105.56}, "พฤษภาคม": {"work": 14.0, "inspect": 23.0, "pct": 164.29}, "มิถุนายน": {"work": 20.0, "inspect": 23.0, "pct": 115.0}, "กรกฎาคม": {"work": 20.0, "inspect": 24.0, "pct": 120.0}, "สิงหาคม": {"work": 20.0, "inspect": 21.0, "pct": 105.0}, "กันยายน": {"work": 22.0, "inspect": 24.0, "pct": 109.09}, "ตุลาคม": {"work": 19.0, "inspect": 19.0, "pct": 100.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}, {"id": 90, "plate": "1 กจ 4609 นธ.", "dept": "ผบค.ตบ.", "office": "กฟส.ตากใบ", "months": {"มกราคม": {"work": 22.0, "inspect": 18.0, "pct": 81.82}, "กุมภาพันธ์": {"work": 19.0, "inspect": 13.0, "pct": 68.42}, "มีนาคม": {"work": 20.0, "inspect": 5.0, "pct": 25.0}, "เมษายน": {"work": 18.0, "inspect": 0.0, "pct": 0.0}, "พฤษภาคม": {"work": 14.0, "inspect": 0.0, "pct": 0.0}, "มิถุนายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กรกฎาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "สิงหาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "กันยายน": {"work": 22.0, "inspect": 0.0, "pct": 0.0}, "ตุลาคม": {"work": 19.0, "inspect": 0.0, "pct": 0.0}, "พฤศจิกายน": {"work": 20.0, "inspect": 0.0, "pct": 0.0}, "ธันวาคม": {"work": 20.0, "inspect": 0.0, "pct": 0.0}}}]};
 
-  // Google Forms rejects raw POSTs to /formResponse for multi-page forms like this one
-  // (it needs a fresh, per-load "fbzx" token that a cross-origin fetch() can never read —
-  // docs.google.com sends no CORS headers). Instead we redirect to the form's own
-  // "pre-filled link" URL: Google's real page then loads with every field already filled
-  // in on its page, so submitting is just tapping "Next" a few times, no retyping.
-  var FORM_VIEW_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfaPj31ahG0RD69C6phnXxZvTygc36dVDeyLbGbCgRBZgiHMA/viewform";
-  var CACHE_KEY = "vehicleCheckinCache_v1";
+// Application State
+const STATE = {
+  sheetId: '1etuKVWh6opzevOlB3nf9VJ311IQJ_0PsCK3jshf1-JU',
+  gid: '323454694',
+  months: SNAPSHOT_DATA.months,
+  vehicles: SNAPSHOT_DATA.vehicles,
+  currentMonth: 'ตุลาคม',
+  currentOffice: 'ALL',
+  currentDept: 'ALL',
+  currentSort: 'ORIGINAL',
+  statusTab: 'ALL',
+  chartMetric: 'pct', // 'pct' or 'days'
+  lastSyncTime: new Date(SNAPSHOT_DATA.updatedAt),
+  autoRefreshInterval: null,
+  charts: {}
+};
 
-  // entry.<id> mapping reverse-engineered from the live Google Form's FB_PUBLIC_LOAD_DATA_
-  var ENTRY = {
-    BRANCH: "1645257452",           // กฟฟ.
-    DEPT: "225784074",              // แผนกใน กฟจ.นธ. และ กฟฟ.ในสังกัด
-    PLATE: "506576836",             // หมายเลขทะเบียนรถ ผมต.นธ.
-    LAST_OIL: "266239586",          // เลขไมล์เปลี่ยนถ่ายน้ำมันเครื่องครั้งต่อไป (คำนวณ)
-    MILEAGE: "2028474554",          // เลขไมล์ปัจจุบัน
-    VEHICLE_TYPE: "192645283",      // ประเภทรถ
-    CHECKLIST: "1190046626",        // รายการปัญหาที่พบ (รถทั่วไป)
-    CHECKLIST_DETAIL: "776683018",  // รายละเอียดข้อบกพร่อง (รถทั่วไป)
-    EMP_CODE: "38458013"            // รหัสพนักงาน
-  };
+// Utility: Show Toast
+function showToast(msg, icon = 'ℹ️') {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
 
-  var FIXED = {
-    branch: "กฟส.นราธิวาส",
-    dept: "ผมต.กฟส.นธ.",
-    vehicleType: "รถทั่วไป นอกเหนือข้อ 1-2"
-  };
-  var NO_ISSUE = "ไม่พบปัญหา";
+// Initialize Dashboard
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  setupMonthSelector();
+  setupOfficeSelector();
+  setupDeptSelector();
+  setupAutoRefresh();
+  
+  // Render immediately from Snapshot
+  renderDashboard();
+  
+  // Try fetching live data in background
+  fetchLiveGoogleSheetData();
+});
 
-  var $ = function (id) { return document.getElementById(id); };
-  var body = document.body;
-  var plateEl = $("plate"), mileageEl = $("mileage"), empCodeEl = $("empCode");
-  var oilPreview = $("oilPreview"), errorMsg = $("errorMsg");
-  var checklistPanel = $("checklistPanel"), checklistTrigger = $("checklistTrigger");
-  var checklistBoxes = Array.prototype.slice.call(checklistPanel.querySelectorAll("input[type=checkbox]"));
-  var noIssueBox = checklistBoxes.filter(function (b) { return b.value === NO_ISSUE; })[0];
+// Theme Toggle
+function initTheme() {
+  const savedTheme = localStorage.getItem('carReportTheme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  setTheme(savedTheme);
+  
+  document.getElementById('themeToggleBtn').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+}
 
-  function setState(s) { body.setAttribute("data-state", s); }
-
-  function computeLastOil(mileage) {
-    return Math.floor(mileage / 10000) * 10000;
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('carReportTheme', theme);
+  document.getElementById('themeToggleBtn').textContent = theme === 'dark' ? '☀️' : '🌙';
+  if (STATE.charts.deptChart) {
+    updateChartTheme();
   }
+}
 
-  function fmt(n) { return Number(n).toLocaleString("th-TH"); }
-
-  function updatePreview() {
-    var v = parseInt(mileageEl.value, 10);
-    if (!isNaN(v) && v >= 0) {
-      oilPreview.innerHTML = "ระยะเปลี่ยนถ่ายน้ำมันเครื่องล่าสุด: <strong>" + fmt(computeLastOil(v)) + " กม.</strong>";
-    } else {
-      oilPreview.textContent = "";
+// Populate Month Selector
+function setupMonthSelector() {
+  const monthSelect = document.getElementById('monthSelect');
+  monthSelect.innerHTML = '';
+  
+  let defaultMonth = 'ตุลาคม';
+  for (let i = STATE.months.length - 1; i >= 0; i--) {
+    const m = STATE.months[i];
+    const totalInspect = STATE.vehicles.reduce((sum, v) => sum + (v.months[m]?.inspect || 0), 0);
+    if (totalInspect > 0) {
+      defaultMonth = m;
+      break;
     }
   }
-  mileageEl.addEventListener("input", updatePreview);
+  STATE.currentMonth = defaultMonth;
 
-  // ---- ความผิดปกติ: checkbox dropdown, "ไม่พบปัญหา" is mutually exclusive with the rest ----
-  function selectedProblems() {
-    return checklistBoxes.filter(function (b) { return b.checked && b !== noIssueBox; }).map(function (b) { return b.value; });
+  STATE.months.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = 'เดือน ' + m;
+    if (m === defaultMonth) opt.selected = true;
+    monthSelect.appendChild(opt);
+  });
+}
+
+// Populate Office Selector
+function setupOfficeSelector() {
+  const officeSelect = document.getElementById('officeSelect');
+  const offices = Array.from(new Set(STATE.vehicles.map(v => v.office))).filter(Boolean);
+  
+  officeSelect.innerHTML = '<option value="ALL">ทุกสังกัด (ภาพรวม)</option>';
+  offices.forEach(off => {
+    const opt = document.createElement('option');
+    opt.value = off;
+    opt.textContent = off;
+    officeSelect.appendChild(opt);
+  });
+}
+
+// Populate Dept Selector
+function setupDeptSelector() {
+  const deptSelect = document.getElementById('deptSelect');
+  const selectedOffice = STATE.currentOffice;
+  
+  let depts = STATE.vehicles;
+  if (selectedOffice !== 'ALL') {
+    depts = depts.filter(v => v.office === selectedOffice);
   }
-  function updateChecklistSummary() {
-    var problems = selectedProblems();
-    checklistTrigger.textContent = problems.length === 0 ? NO_ISSUE : problems.join(", ");
+  const uniqueDepts = Array.from(new Set(depts.map(v => v.dept))).filter(Boolean);
+  
+  deptSelect.innerHTML = '<option value="ALL">ทุกแผนก (' + uniqueDepts.length + ' แผนก)</option>';
+  uniqueDepts.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = d;
+    if (d === STATE.currentDept) opt.selected = true;
+    deptSelect.appendChild(opt);
+  });
+}
+
+function onOfficeChange() {
+  STATE.currentOffice = document.getElementById('officeSelect').value;
+  STATE.currentDept = 'ALL';
+  setupDeptSelector();
+  renderDashboard();
+}
+
+function onFilterChange() {
+  STATE.currentMonth = document.getElementById('monthSelect').value;
+  STATE.currentDept = document.getElementById('deptSelect').value;
+  STATE.currentSort = document.getElementById('sortSelect').value;
+  renderDashboard();
+}
+
+function setStatusTab(status) {
+  STATE.statusTab = status;
+  document.querySelectorAll('.table-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.getAttribute('data-status') === status);
+  });
+  renderTable();
+}
+
+function setChartMetric(metric) {
+  STATE.chartMetric = metric;
+  document.getElementById('btnMetricPct').classList.toggle('active', metric === 'pct');
+  document.getElementById('btnMetricDays').classList.toggle('active', metric === 'days');
+  renderDeptChart();
+}
+
+// Filter and Aggregate Data
+function getFilteredVehicles() {
+  const search = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+  const month = STATE.currentMonth;
+  
+  return STATE.vehicles.filter(v => {
+    if (STATE.currentOffice !== 'ALL' && v.office !== STATE.currentOffice) return false;
+    if (STATE.currentDept !== 'ALL' && v.dept !== STATE.currentDept) return false;
+    
+    const pct = v.months[month]?.pct || 0;
+    if (STATE.statusTab === 'PASSED' && pct < 80) return false;
+    if (STATE.statusTab === 'MEDIUM' && (pct < 50 || pct >= 80)) return false;
+    if (STATE.statusTab === 'ALERT' && pct >= 50) return false;
+
+    if (search) {
+      const matchPlate = v.plate.toLowerCase().includes(search);
+      const matchDept = v.dept.toLowerCase().includes(search);
+      const matchOffice = v.office.toLowerCase().includes(search);
+      if (!matchPlate && !matchDept && !matchOffice) return false;
+    }
+    return true;
+  });
+}
+
+function getDepartmentAggregates() {
+  const month = STATE.currentMonth;
+  // Use all vehicles within office (not affected by search/status tabs) for accurate department chart
+  let sourceVehicles = STATE.vehicles;
+  if (STATE.currentOffice !== 'ALL') {
+    sourceVehicles = sourceVehicles.filter(v => v.office === STATE.currentOffice);
   }
-  checklistBoxes.forEach(function (box) {
-    box.addEventListener("change", function () {
-      if (box === noIssueBox) {
-        if (box.checked) checklistBoxes.forEach(function (b) { if (b !== noIssueBox) b.checked = false; });
-      } else if (box.checked) {
-        noIssueBox.checked = false;
+
+  const deptMap = new Map();
+  sourceVehicles.forEach(v => {
+    const d = v.dept;
+    if (!deptMap.has(d)) {
+      deptMap.set(d, {
+        dept: d,
+        office: v.office,
+        carCount: 0,
+        workDays: 0,
+        inspectDays: 0,
+        sumPct: 0,
+        carsPassing: 0
+      });
+    }
+    const agg = deptMap.get(d);
+    const mData = v.months[month] || { work: 0, inspect: 0, pct: 0 };
+    agg.carCount++;
+    agg.workDays += mData.work;
+    agg.inspectDays += mData.inspect;
+    agg.sumPct += mData.pct;
+    if (mData.pct >= 80) agg.carsPassing++;
+  });
+
+  const results = Array.from(deptMap.values()).map(d => {
+    const avgPct = d.carCount > 0 ? (d.sumPct / d.carCount) : 0;
+    return {
+      ...d,
+      avgPct: parseFloat(avgPct.toFixed(2))
+    };
+  });
+
+  // Sort logic
+  if (STATE.currentSort === 'PCT_DESC') {
+    results.sort((a, b) => b.avgPct - a.avgPct);
+  } else if (STATE.currentSort === 'PCT_ASC') {
+    results.sort((a, b) => a.avgPct - b.avgPct);
+  } else if (STATE.currentSort === 'NAME_ASC') {
+    results.sort((a, b) => a.dept.localeCompare(b.dept, 'th'));
+  }
+  // 'ORIGINAL' keeps sheet structure order
+
+  return results;
+}
+
+// Render Master Function
+function renderDashboard() {
+  document.getElementById('chartSelectedMonthBadge').textContent = 'เดือน ' + STATE.currentMonth;
+  renderKPIs();
+  renderDeptChart();
+  renderTrendChart();
+  renderTierChart();
+  renderTable();
+}
+
+// 1. KPI Cards
+function renderKPIs() {
+  const month = STATE.currentMonth;
+  let sourceVehicles = STATE.vehicles;
+  if (STATE.currentOffice !== 'ALL') {
+    sourceVehicles = sourceVehicles.filter(v => v.office === STATE.currentOffice);
+  }
+  if (STATE.currentDept !== 'ALL') {
+    sourceVehicles = sourceVehicles.filter(v => v.dept === STATE.currentDept);
+  }
+
+  const deptAggs = getDepartmentAggregates();
+  
+  let totalWork = 0;
+  let totalInspect = 0;
+  let sumPct = 0;
+  
+  sourceVehicles.forEach(v => {
+    const mData = v.months[month] || { work: 0, inspect: 0, pct: 0 };
+    totalWork += mData.work;
+    totalInspect += mData.inspect;
+    sumPct += mData.pct;
+  });
+
+  const avgPct = sourceVehicles.length > 0 ? (sumPct / sourceVehicles.length).toFixed(1) : '0.0';
+  const passedDepts = deptAggs.filter(d => d.avgPct >= 80).length;
+  const alertDepts = deptAggs.filter(d => d.avgPct < 50).length;
+  const totalDepts = deptAggs.length;
+
+  document.getElementById('kpiAvgPct').textContent = avgPct + '%';
+  const avgStatus = document.getElementById('kpiAvgStatus');
+  if (parseFloat(avgPct) >= 80) {
+    avgStatus.textContent = 'ยอดเยี่ยม';
+    avgStatus.className = 'kpi-badge badge-success';
+  } else if (parseFloat(avgPct) >= 50) {
+    avgStatus.textContent = 'ปานกลาง';
+    avgStatus.className = 'kpi-badge badge-warning';
+  } else {
+    avgStatus.textContent = 'ต้องปรับปรุง';
+    avgStatus.className = 'kpi-badge badge-danger';
+  }
+
+  document.getElementById('kpiDaysRatio').textContent = totalInspect.toLocaleString() + ' / ' + totalWork.toLocaleString();
+  const sampleWork = sourceVehicles[0]?.months[month]?.work || 0;
+  document.getElementById('kpiDaysSubtext').textContent = 'วันทำงาน ' + sampleWork + ' วัน · รวม ' + sourceVehicles.length + ' คัน';
+
+  document.getElementById('kpiPassedDepts').textContent = passedDepts + ' แผนก';
+  document.getElementById('kpiPassedDeptsSubtext').textContent = totalDepts > 0 
+    ? ((passedDepts / totalDepts) * 100).toFixed(0) + '% ของแผนกทั้งหมด' : '0%';
+
+  document.getElementById('kpiAlertDepts').textContent = alertDepts + ' แผนก';
+  document.getElementById('kpiAlertDeptsSubtext').textContent = totalDepts > 0 
+    ? ((alertDepts / totalDepts) * 100).toFixed(0) + '% ของแผนกทั้งหมด' : '0%';
+}
+
+// 2. Main Department Summary Bar Chart
+function renderDeptChart() {
+  const ctx = document.getElementById('deptChart').getContext('2d');
+  const depts = getDepartmentAggregates();
+  const metric = STATE.chartMetric;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const selDept = STATE.currentDept;
+
+  const labels = depts.map(d => d.dept);
+  const data = depts.map(d => metric === 'pct' ? d.avgPct : d.inspectDays);
+
+  const bgColors = depts.map(d => {
+    let baseColor;
+    if (d.avgPct >= 80) baseColor = isDark ? '#34d399' : '#10b981';
+    else if (d.avgPct >= 50) baseColor = isDark ? '#fbbf24' : '#f59e0b';
+    else baseColor = isDark ? '#f87171' : '#ef4444';
+
+    if (selDept !== 'ALL' && d.dept !== selDept) {
+      return isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    }
+    return baseColor;
+  });
+
+  if (STATE.charts.deptChart) {
+    STATE.charts.deptChart.destroy();
+  }
+
+  // Custom Plugin for Benchmark Target Lines & Data Labels on Bars
+  const customBarPlugin = {
+    id: 'customBarPlugin',
+    afterDraw(chart) {
+      const { ctx, chartArea: { left, right, top, bottom }, scales: { y } } = chart;
+      if (!y) return;
+
+      // Draw Benchmark lines (only for % mode)
+      if (metric === 'pct') {
+        const drawLine = (val, color, text) => {
+          const yPos = y.getPixelForValue(val);
+          if (yPos < top || yPos > bottom) return;
+          ctx.save();
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([5, 5]);
+          ctx.beginPath();
+          ctx.moveTo(left, yPos);
+          ctx.lineTo(right, yPos);
+          ctx.stroke();
+
+          ctx.fillStyle = color;
+          ctx.font = 'bold 11px Prompt, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillText(text, right - 8, yPos - 5);
+          ctx.restore();
+        };
+
+        drawLine(80, isDark ? '#34d399' : '#059669', 'เกณฑ์มาตรฐาน 80%');
+        drawLine(100, isDark ? '#c084fc' : '#7c3aed', 'เป้าหมาย 100%');
       }
-      if (selectedProblems().length === 0) noIssueBox.checked = true;
-      updateChecklistSummary();
+
+      // Draw Data Labels directly on top of each bar
+      chart.data.datasets.forEach((dataset, i) => {
+        const meta = chart.getDatasetMeta(i);
+        meta.data.forEach((bar, index) => {
+          const val = dataset.data[index];
+          if (val !== null && val !== undefined && val > 0) {
+            ctx.save();
+            ctx.fillStyle = isDark ? '#e2d9f3' : '#3c245c';
+            ctx.font = 'bold 10px Prompt, sans-serif';
+            ctx.textAlign = 'center';
+            const labelText = metric === 'pct' ? Math.round(val) + '%' : Math.round(val);
+            ctx.fillText(labelText, bar.x, bar.y - 6);
+            ctx.restore();
+          }
+        });
+      });
+    }
+  };
+
+  STATE.charts.deptChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: metric === 'pct' ? '% การตรวจรถ' : 'จำนวนวันตรวจ (วัน)',
+        data: data,
+        backgroundColor: bgColors,
+        borderRadius: 6,
+        borderSkipped: false,
+        maxBarThickness: 38
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      onClick: (e, elements) => {
+        if (elements.length > 0) {
+          const index = elements[0].index;
+          const clickedDept = labels[index];
+          if (STATE.currentDept === clickedDept) {
+            // Toggle back to ALL
+            document.getElementById('deptSelect').value = 'ALL';
+            STATE.currentDept = 'ALL';
+            showToast('แสดงทุกแผนก', 'ℹ️');
+          } else {
+            document.getElementById('deptSelect').value = clickedDept;
+            STATE.currentDept = clickedDept;
+            showToast('กรองดูเฉพาะแผนก: ' + clickedDept, '🔍');
+          }
+          renderDashboard();
+          document.getElementById('dataTable').scrollIntoView({ behavior: 'smooth' });
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: isDark ? '#2d253a' : '#1e1926',
+          titleFont: { family: 'Prompt', size: 13, weight: 'bold' },
+          bodyFont: { family: 'Prompt', size: 12 },
+          padding: 12,
+          cornerRadius: 8,
+          callbacks: {
+            title: (items) => {
+              const d = depts[items[0].index];
+              return d.dept + ' (' + d.office + ')';
+            },
+            label: (item) => {
+              const d = depts[item.index];
+              if (metric === 'pct') {
+                return [
+                  '  อัตราการตรวจ: ' + d.avgPct + '%',
+                  '  ตรวจจริง: ' + d.inspectDays + ' จาก ' + d.workDays + ' วัน-คัน',
+                  '  จำนวนรถ: ' + d.carCount + ' คัน (ผ่านเกณฑ์ ' + d.carsPassing + ' คัน)'
+                ];
+              } else {
+                return [
+                  '  จำนวนวันตรวจ: ' + d.inspectDays + ' วัน',
+                  '  อัตราเฉลี่ย: ' + d.avgPct + '%',
+                  '  จำนวนรถ: ' + d.carCount + ' คัน'
+                ];
+              }
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: isDark ? '#a79eb4' : '#4b4358',
+            font: { family: 'Prompt', size: 11, weight: '500' },
+            maxRotation: 45,
+            minRotation: 30
+          }
+        },
+        y: {
+          beginAtZero: true,
+          suggestedMax: metric === 'pct' ? 115 : undefined,
+          grid: {
+            color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'
+          },
+          ticks: {
+            color: isDark ? '#a79eb4' : '#6b6377',
+            font: { family: 'Prompt', size: 11 },
+            callback: (val) => metric === 'pct' ? val + '%' : val
+          }
+        }
+      }
+    },
+    plugins: [customBarPlugin]
+  });
+}
+
+// 3. 12-Month Trend Line Chart
+function renderTrendChart() {
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const allMonths = STATE.months;
+
+  // Organization-wide average per month
+  const orgTrend = allMonths.map(m => {
+    let sum = 0, count = 0;
+    STATE.vehicles.forEach(v => {
+      if (v.months[m]) {
+        sum += v.months[m].pct;
+        count++;
+      }
     });
+    return count > 0 ? parseFloat((sum / count).toFixed(1)) : 0;
   });
 
-  // ---- cache: last used ทะเบียนรถ + รหัสพนักงาน ----
-  function loadCache() {
-    try {
-      var raw = localStorage.getItem(CACHE_KEY);
-      if (!raw) return;
-      var c = JSON.parse(raw);
-      if (c.plate) plateEl.value = c.plate;
-      if (c.empCode) empCodeEl.value = c.empCode;
-    } catch (e) { /* ignore corrupt cache */ }
+  const datasets = [{
+    label: 'เฉลี่ยทั้ง กฟฟ. (90 คัน)',
+    data: orgTrend,
+    borderColor: isDark ? '#a855f7' : '#5b2c82',
+    backgroundColor: isDark ? 'rgba(168, 85, 247, 0.12)' : 'rgba(91, 44, 130, 0.08)',
+    borderWidth: 2.5,
+    pointRadius: 4,
+    fill: true,
+    tension: 0.3
+  }];
+
+  // If a specific dept is selected, show that dept's trend
+  if (STATE.currentDept !== 'ALL') {
+    const deptVehicles = STATE.vehicles.filter(v => v.dept === STATE.currentDept);
+    const deptTrend = allMonths.map(m => {
+      let sum = 0, count = 0;
+      deptVehicles.forEach(v => {
+        if (v.months[m]) {
+          sum += v.months[m].pct;
+          count++;
+        }
+      });
+      return count > 0 ? parseFloat((sum / count).toFixed(1)) : 0;
+    });
+
+    datasets.push({
+      label: STATE.currentDept,
+      data: deptTrend,
+      borderColor: isDark ? '#34d399' : '#10b981',
+      backgroundColor: 'transparent',
+      borderWidth: 2.5,
+      borderDash: [4, 4],
+      pointRadius: 5,
+      tension: 0.3
+    });
   }
-  function saveCache(plate, empCode) {
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ plate: plate, empCode: empCode }));
-    } catch (e) { /* storage unavailable, ignore */ }
-  }
-  loadCache();
 
-  function validate() {
-    if (!plateEl.value) return "กรุณาเลือกทะเบียนรถ";
-    var mileage = mileageEl.value.trim();
-    if (!mileage || isNaN(mileage) || parseInt(mileage, 10) < 0) return "กรุณากรอกเลขไมล์ให้ถูกต้อง";
-    if (!empCodeEl.value.trim()) return "กรุณากรอกรหัสพนักงาน";
-    return null;
-  }
+  if (STATE.charts.trendChart) STATE.charts.trendChart.destroy();
 
-  $("view-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    errorMsg.textContent = "";
+  STATE.charts.trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: allMonths.map(m => m.replace('คม', '').replace('ยน', '')),
+      datasets: datasets
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: isDark ? '#f3f0f7' : '#1e1926',
+            font: { family: 'Prompt', size: 12 }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: (item) => ' ' + item.dataset.label + ': ' + item.formattedValue + '%'
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: isDark ? '#a79eb4' : '#6b6377', font: { family: 'Prompt', size: 11 } }
+        },
+        y: {
+          beginAtZero: true,
+          suggestedMax: 100,
+          grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' },
+          ticks: {
+            color: isDark ? '#a79eb4' : '#6b6377',
+            font: { family: 'Prompt', size: 11 },
+            callback: (v) => v + '%'
+          }
+        }
+      }
+    }
+  });
+}
 
-    var err = validate();
-    if (err) { errorMsg.textContent = err; return; }
+// 4. Performance Tier Donut Chart
+function renderTierChart() {
+  const ctx = document.getElementById('tierChart').getContext('2d');
+  const month = STATE.currentMonth;
+  const filtered = getFilteredVehicles();
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
-    var plate = plateEl.value;
-    var mileage = parseInt(mileageEl.value, 10);
-    var empCode = empCodeEl.value.trim();
-    var lastOil = computeLastOil(mileage);
+  let tierGood = 0;   // >= 80%
+  let tierMedium = 0; // 50 - 79%
+  let tierLow = 0;    // < 50%
 
-    var problems = selectedProblems();
-    var checklistValues = problems.length ? problems : [NO_ISSUE];
-    // No problems picked -> silently send "ปกติ" as the detail note.
-    // Problems picked -> leave it blank; the user fills in what's wrong on the actual Google Form page.
-    var checklistDetail = problems.length ? "" : "ปกติ";
-
-    var params = new URLSearchParams();
-    params.set("usp", "pp_url");
-    params.set("entry." + ENTRY.BRANCH, FIXED.branch);
-    params.set("entry." + ENTRY.DEPT, FIXED.dept);
-    params.set("entry." + ENTRY.PLATE, plate);
-    params.set("entry." + ENTRY.LAST_OIL, String(lastOil));
-    params.set("entry." + ENTRY.MILEAGE, String(mileage));
-    params.set("entry." + ENTRY.VEHICLE_TYPE, FIXED.vehicleType);
-    checklistValues.forEach(function (v) { params.append("entry." + ENTRY.CHECKLIST, v); });
-    params.set("entry." + ENTRY.CHECKLIST_DETAIL, checklistDetail);
-    params.set("entry." + ENTRY.EMP_CODE, empCode);
-
-    saveCache(plate, empCode);
-    setState("loading");
-    window.location.href = FORM_VIEW_URL + "?" + params.toString();
+  filtered.forEach(v => {
+    const pct = v.months[month]?.pct || 0;
+    if (pct >= 80) tierGood++;
+    else if (pct >= 50) tierMedium++;
+    else tierLow++;
   });
 
-})();
+  if (STATE.charts.tierChart) STATE.charts.tierChart.destroy();
+
+  STATE.charts.tierChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['ดีมาก (≥80%)', 'ปานกลาง (50-79%)', 'ต้องปรับปรุง (<50%)'],
+      datasets: [{
+        data: [tierGood, tierMedium, tierLow],
+        backgroundColor: [
+          isDark ? '#34d399' : '#10b981',
+          isDark ? '#fbbf24' : '#f59e0b',
+          isDark ? '#f87171' : '#ef4444'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: isDark ? '#f3f0f7' : '#1e1926',
+            font: { family: 'Prompt', size: 11 },
+            padding: 12
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: (item) => {
+              const total = tierGood + tierMedium + tierLow;
+              const pct = total > 0 ? ((item.raw / total) * 100).toFixed(1) : 0;
+              return ' ' + item.label + ': ' + item.raw + ' คัน (' + pct + '%)';
+            }
+          }
+        }
+      },
+      cutout: '68%'
+    }
+  });
+}
+
+// 5. Vehicle Details Table
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  const month = STATE.currentMonth;
+  const filtered = getFilteredVehicles();
+
+  document.getElementById('tableSubtitle').textContent = 
+    'แสดงรถจำนวน ' + filtered.length + ' คัน (ประจำเดือน ' + month + ')';
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 32px; color: var(--text-muted);">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>';
+    return;
+  }
+
+  let html = '';
+  filtered.forEach((v, idx) => {
+    const mData = v.months[month] || { work: 0, inspect: 0, pct: 0 };
+    const pct = mData.pct;
+    
+    let statusClass = 'badge-danger';
+    let statusText = 'ต้องติดตาม';
+    let fillClass = 'fill-danger';
+
+    if (pct >= 80) {
+      statusClass = 'badge-success';
+      statusText = 'ผ่านเกณฑ์';
+      fillClass = 'fill-success';
+    } else if (pct >= 50) {
+      statusClass = 'badge-warning';
+      statusText = 'ปานกลาง';
+      fillClass = 'fill-warning';
+    }
+
+    html += `
+      <tr>
+        <td style="color: var(--text-muted);">${idx + 1}</td>
+        <td><span class="dept-badge">${v.office}</span></td>
+        <td style="font-weight: 600;">${v.dept}</td>
+        <td><strong>${v.plate}</strong></td>
+        <td style="text-align: right;">${mData.work}</td>
+        <td style="text-align: right; font-weight: 600;">${mData.inspect}</td>
+        <td>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill ${fillClass}" style="width: ${Math.min(pct, 100)}%;"></div>
+          </div>
+          <span style="font-weight: 600; font-feature-settings: 'tnum';">${pct.toFixed(1)}%</span>
+        </td>
+        <td style="text-align: center;">
+          <span class="kpi-badge ${statusClass}">${statusText}</span>
+        </td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = html;
+}
+
+// Export Data to CSV
+function exportCSV() {
+  const month = STATE.currentMonth;
+  const filtered = getFilteredVehicles();
+  
+  let csvContent = '﻿'; // UTF-8 BOM
+  csvContent += 'ลำดับ,สำนักงาน_กฟฟ,แผนก,ทะเบียน_กฟฟ,วันทำงาน,วันตรวจจริง,คิดเป็นเปอร์เซ็นต์,สถานะ\n';
+  
+  filtered.forEach((v, idx) => {
+    const mData = v.months[month] || { work: 0, inspect: 0, pct: 0 };
+    const status = mData.pct >= 80 ? 'ผ่านเกณฑ์' : (mData.pct >= 50 ? 'ปานกลาง' : 'ต้องติดตาม');
+    csvContent += `"${idx + 1}","${v.office}","${v.dept}","${v.plate}",${mData.work},${mData.inspect},${mData.pct.toFixed(2)}%,"${status}"\n`;
+  });
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `car-report-${month}-2569.csv`;
+  link.click();
+  showToast('ส่งออกไฟล์ CSV สำเร็จ', '📥');
+}
+
+// Real-time Google Sheets Fetch Engine
+async function fetchLiveGoogleSheetData(isManual = false) {
+  const refreshBtn = document.getElementById('refreshBtn');
+  const syncDot = document.getElementById('syncDot');
+  const syncStatus = document.getElementById('syncStatus');
+  const syncTime = document.getElementById('syncTime');
+
+  if (isManual) refreshBtn.classList.add('spinning');
+  syncStatus.textContent = 'กำลังซิงค์ข้อมูลล่าสุดจาก Google Sheets...';
+
+  const exportUrl = `https://docs.google.com/spreadsheets/d/${STATE.sheetId}/export?format=csv&gid=${STATE.gid}&_t=${Date.now()}`;
+  const gvizUrl = `https://docs.google.com/spreadsheets/d/${STATE.sheetId}/gviz/tq?tqx=out:csv&gid=${STATE.gid}&_t=${Date.now()}`;
+
+  let csvText = null;
+
+  try {
+    // Attempt 1: Standard export CSV
+    const res = await fetch(exportUrl, { cache: 'no-store' });
+    if (res.ok) csvText = await res.text();
+  } catch (e) {
+    console.warn('Export fetch failed, trying gviz endpoint...', e);
+  }
+
+  if (!csvText) {
+    try {
+      // Attempt 2: GViz CSV
+      const res = await fetch(gvizUrl, { cache: 'no-store' });
+      if (res.ok) csvText = await res.text();
+    } catch (e) {
+      console.warn('GViz fetch failed as well.', e);
+    }
+  }
+
+  if (csvText && csvText.includes(',')) {
+    try {
+      parseAndApplyCSV(csvText);
+      STATE.lastSyncTime = new Date();
+      syncStatus.textContent = 'ข้อมูล Real-time ล่าสุดจาก Google Sheets';
+      syncTime.textContent = 'อัปเดตเมื่อ ' + formatTime(STATE.lastSyncTime);
+      syncDot.style.backgroundColor = 'var(--success)';
+      if (isManual) showToast('อัปเดตข้อมูลล่าสุดเรียบร้อยแล้ว', '🟢');
+    } catch (err) {
+      console.error('Error parsing live CSV:', err);
+      fallbackToSnapshot('เกิดข้อผิดพลาดในการประมวลผลข้อมูลสด');
+    }
+  } else {
+    fallbackToSnapshot('ไม่สามารถติดต่อ Google Sheet ได้ในขณะนี้');
+  }
+
+  if (isManual) refreshBtn.classList.remove('spinning');
+}
+
+function fallbackToSnapshot(reason) {
+  const syncStatus = document.getElementById('syncStatus');
+  const syncTime = document.getElementById('syncTime');
+  const syncDot = document.getElementById('syncDot');
+
+  syncStatus.textContent = 'กำลังแสดงข้อมูลสำรองล่าสุด';
+  syncTime.textContent = '(' + reason + ')';
+  syncDot.style.backgroundColor = 'var(--warning)';
+}
+
+function manualRefresh() {
+  fetchLiveGoogleSheetData(true);
+}
+
+function setupAutoRefresh() {
+  const checkbox = document.getElementById('autoRefreshCheckbox');
+  const toggle = () => {
+    if (checkbox.checked) {
+      if (STATE.autoRefreshInterval) clearInterval(STATE.autoRefreshInterval);
+      STATE.autoRefreshInterval = setInterval(() => {
+        fetchLiveGoogleSheetData(false);
+      }, 120000); // 2 minutes
+    } else {
+      if (STATE.autoRefreshInterval) clearInterval(STATE.autoRefreshInterval);
+      STATE.autoRefreshInterval = null;
+    }
+  };
+  checkbox.addEventListener('change', toggle);
+  toggle();
+}
+
+// Robust CSV Parser
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/);
+  const rows = [];
+  
+  for (let line of lines) {
+    if (!line.trim()) continue;
+    const row = [];
+    let insideQuotes = false;
+    let cell = '';
+    
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        insideQuotes = !insideQuotes;
+      } else if (ch === ',' && !insideQuotes) {
+        row.push(cell.trim());
+        cell = '';
+      } else {
+        cell += ch;
+      }
+    }
+    row.push(cell.trim());
+    rows.push(row);
+  }
+  return rows;
+}
+
+function getOfficeName(dept) {
+  if (dept.endsWith('.นธ.')) return 'กฟจ.นราธิวาส';
+  if (dept === 'บจ.') return 'กฟย.บาเจาะ';
+  if (dept === 'ยง.') return 'กฟย.ยี่งอ';
+  if (dept.endsWith('.รง.')) return 'กฟส.ระแงะ';
+  if (dept === 'จน.') return 'กฟย.จะแนะ';
+  if (dept === 'จอ.') return 'กฟย.เจาะไอร้อง';
+  if (dept.endsWith('.รส.')) return 'กฟส.รือเสาะ';
+  if (dept === 'ศสค.') return 'กฟย.ศรีสาคร';
+  if (dept.endsWith('.ตบ.')) return 'กฟส.ตากใบ';
+  return 'กฟจ.นราธิวาส';
+}
+
+function parseAndApplyCSV(csvText) {
+  const rows = parseCSV(csvText);
+  if (rows.length < 3) return;
+
+  // Month headers in row 0
+  const headerMonths = [];
+  for (let c = 3; c < rows[0].length; c += 3) {
+    const m = rows[0][c].trim();
+    if (m) {
+      headerMonths.push({
+        name: m,
+        workCol: c,
+        inspectCol: c + 1,
+        pctCol: c + 2
+      });
+    }
+  }
+
+  if (headerMonths.length === 0) return;
+
+  const newVehicles = [];
+  let currDept = '';
+
+  for (let rIdx = 2; rIdx < rows.length; rIdx++) {
+    const r = rows[rIdx];
+    let deptCell = (r[1] || '').trim();
+    const plate = (r[2] || '').trim();
+    if (!plate) continue;
+
+    if (plate === '2 ขด 2570 กทม.' && !deptCell) deptCell = 'ผบส.นธ.';
+    else if (plate === 'บฉ 7347 นธ.' && !deptCell) deptCell = 'ผบค.รส.';
+
+    if (deptCell) currDept = deptCell;
+    const office = getOfficeName(currDept);
+
+    const mData = {};
+    headerMonths.forEach(m => {
+      const wVal = (r[m.workCol] || '0').replace(/,/g, '');
+      const iVal = (r[m.inspectCol] || '0').replace(/,/g, '');
+      const pVal = (r[m.pctCol] || '0%').replace(/[% ,]/g, '');
+
+      mData[m.name] = {
+        work: parseFloat(wVal) || 0,
+        inspect: parseFloat(iVal) || 0,
+        pct: parseFloat(pVal) || 0
+      };
+    });
+
+    newVehicles.push({
+      id: newVehicles.length + 1,
+      plate: plate,
+      dept: currDept,
+      office: office,
+      months: mData
+    });
+  }
+
+  if (newVehicles.length > 0) {
+    STATE.months = headerMonths.map(m => m.name);
+    STATE.vehicles = newVehicles;
+    renderDashboard();
+  }
+}
+
+function formatTime(d) {
+  return d.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' น.';
+}
+
+function updateChartTheme() {
+  renderDeptChart();
+  renderTrendChart();
+  renderTierChart();
+}
 </script>
+
 </body>
 </html>
