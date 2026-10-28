@@ -1628,12 +1628,51 @@ function parseAndApplyLiveTodayRows(rows) {
       let driver = r.c[39] && r.c[39].v ? String(r.c[39].v).trim() : '';
       if (driver.endsWith('.0')) driver = driver.slice(0, -2);
 
+      // Extract current department reported in today's form submission
+      let reportedDept = '';
+      const c1 = r.c[1] ? String(r.c[1].v || '').trim() : '';
+      const c2 = r.c[2] ? String(r.c[2].v || '').trim() : '';
+      const c4 = r.c[4] ? String(r.c[4].v || '').trim() : '';
+      const c5 = r.c[5] ? String(r.c[5].v || '').trim() : '';
+      const c6 = r.c[6] ? String(r.c[6].v || '').trim() : '';
+      const rawDept = c2 || c4 || c5 || c6 || '';
+
+      if (rawDept.includes('กบห')) reportedDept = 'กบห.นธ.';
+      else if (rawDept.includes('ผบส')) reportedDept = 'ผบส.นธ.';
+      else if (rawDept.includes('ผบร')) reportedDept = 'ผบร.นธ.';
+      else if (rawDept.includes('ผกส')) reportedDept = 'ผกส.นธ.';
+      else if (rawDept.includes('ผปบ')) reportedDept = 'ผปบ.นธ.';
+      else if (rawDept.includes('ผมต.กฟส.นธ') || (rawDept.includes('ผมต') && c1.includes('นราธิวาส'))) reportedDept = 'ผมต.นธ.';
+      else if (rawDept.includes('ผคพ')) reportedDept = 'ผคพ.นธ.';
+      else if (c1.includes('บาเจาะ')) reportedDept = 'บจ.';
+      else if (c1.includes('ยี่งอ')) reportedDept = 'ยง.';
+      else if (c1.includes('จะแนะ')) reportedDept = 'จน.';
+      else if (c1.includes('เจาะไอร้อง')) reportedDept = 'จอ.';
+      else if (c1.includes('ศรีสาคร')) reportedDept = 'ศสค.';
+      else if (c1.includes('ระแงะ')) {
+        if (rawDept.includes('ผบค')) reportedDept = 'ผบค.รง.';
+        else if (rawDept.includes('ผบง')) reportedDept = 'ผบง.รง.';
+        else if (rawDept.includes('ผปร')) reportedDept = 'ผปร.รง.';
+        else if (rawDept.includes('ผมต')) reportedDept = 'ผมต.รง.';
+      } else if (c1.includes('รือเสาะ')) {
+        if (rawDept.includes('ผบค')) reportedDept = 'ผบค.รส.';
+        else if (rawDept.includes('ผบง')) reportedDept = 'ผบง.รส.';
+        else if (rawDept.includes('ผปร')) reportedDept = 'ผปร.รส.';
+        else if (rawDept.includes('ผมต')) reportedDept = 'ผมต.รส.';
+      } else if (c1.includes('ตากใบ')) {
+        if (rawDept.includes('ผบค')) reportedDept = 'ผบค.ตบ.';
+        else if (rawDept.includes('ผบง')) reportedDept = 'ผบง.ตบ.';
+        else if (rawDept.includes('ผปร')) reportedDept = 'ผปร.ตบ.';
+        else if (rawDept.includes('ผมต')) reportedDept = 'ผมต.ตบ.';
+      }
+
       todayRecords.push({
         plate: plate,
         norm: normalizePlate(plate),
         time: timeStr,
         problem: problem,
-        driver: driver
+        driver: driver,
+        reportedDept: reportedDept
       });
     }
   });
@@ -1664,7 +1703,33 @@ function renderTodayWidget() {
   const checkMap = STATE.todayChecksMap || new Map();
   const filterDept = document.getElementById('todayDeptFilter')?.value || 'ALL';
 
-  let allVehicles = STATE.vehicles || [];
+  // For today monitor, use unique vehicles based on normalized plate
+  // If a vehicle was transferred, select its latest active department or reported department
+  const uniqueVehicleMap = new Map();
+  (STATE.vehicles || []).forEach(v => {
+    const pNorm = normalizePlate(v.plate);
+    const currActive = isVehicleActiveInMonth(v, STATE.currentMonth);
+    
+    if (!uniqueVehicleMap.has(pNorm)) {
+      uniqueVehicleMap.set(pNorm, { ...v });
+    } else if (currActive) {
+      // Prefer current active department record
+      uniqueVehicleMap.set(pNorm, { ...v });
+    }
+  });
+
+  // If live inspection today reported a new department, reflect it immediately
+  uniqueVehicleMap.forEach((v, pNorm) => {
+    if (checkMap.has(pNorm)) {
+      const liveInfo = checkMap.get(pNorm);
+      if (liveInfo.reportedDept) {
+        v.dept = liveInfo.reportedDept;
+        v.office = getOfficeName(liveInfo.reportedDept);
+      }
+    }
+  });
+
+  let allVehicles = Array.from(uniqueVehicleMap.values());
   if (filterDept !== 'ALL') {
     allVehicles = allVehicles.filter(v => v.dept === filterDept);
   }
@@ -1922,11 +1987,22 @@ function setChartMetric(metric) {
 }
 
 // Filter and Aggregate Data
+// Helper: Check if vehicle is active in the specified month (handles transfers)
+function isVehicleActiveInMonth(v, month) {
+  if (!v || !v.months) return false;
+  const m = v.months[month];
+  if (!m) return false;
+  return (m.work > 0) || (m.inspect > 0);
+}
+
 function getFilteredVehicles() {
   const search = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
   const month = STATE.currentMonth;
   
   return STATE.vehicles.filter(v => {
+    // If vehicle was transferred to another department and has 0 work/inspect in this month, skip it
+    if (!isVehicleActiveInMonth(v, month)) return false;
+
     if (STATE.currentOffice !== 'ALL' && v.office !== STATE.currentOffice) return false;
     if (STATE.currentDept !== 'ALL' && v.dept !== STATE.currentDept) return false;
     
@@ -1947,8 +2023,8 @@ function getFilteredVehicles() {
 
 function getDepartmentAggregates() {
   const month = STATE.currentMonth;
-  // Use all vehicles within office (not affected by search/status tabs) for accurate department chart
-  let sourceVehicles = STATE.vehicles;
+  // Use all active vehicles within office for the selected month (handles transfers seamlessly)
+  let sourceVehicles = STATE.vehicles.filter(v => isVehicleActiveInMonth(v, month));
   if (STATE.currentOffice !== 'ALL') {
     sourceVehicles = sourceVehicles.filter(v => v.office === STATE.currentOffice);
   }
@@ -2010,7 +2086,8 @@ function renderDashboard() {
 // 1. KPI Cards
 function renderKPIs() {
   const month = STATE.currentMonth;
-  let sourceVehicles = STATE.vehicles;
+  // Filter active vehicles for the selected month (prevents transferred vehicle double-counting)
+  let sourceVehicles = STATE.vehicles.filter(v => isVehicleActiveInMonth(v, month));
   if (STATE.currentOffice !== 'ALL') {
     sourceVehicles = sourceVehicles.filter(v => v.office === STATE.currentOffice);
   }
@@ -2240,11 +2317,11 @@ function renderTrendChart() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const allMonths = STATE.months;
 
-  // Organization-wide average per month
+  // Organization-wide average per month (considering active vehicles per month)
   const orgTrend = allMonths.map(m => {
     let sum = 0, count = 0;
     STATE.vehicles.forEach(v => {
-      if (v.months[m]) {
+      if (isVehicleActiveInMonth(v, m)) {
         sum += v.months[m].pct;
         count++;
       }
@@ -2269,7 +2346,7 @@ function renderTrendChart() {
     const deptTrend = allMonths.map(m => {
       let sum = 0, count = 0;
       deptVehicles.forEach(v => {
-        if (v.months[m]) {
+        if (isVehicleActiveInMonth(v, m)) {
           sum += v.months[m].pct;
           count++;
         }
