@@ -6,9 +6,16 @@
 <meta name="theme-color" content="#5b2c82">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ตรวจรถ ผมต.นธ.">
+<meta name="apple-mobile-web-app-title" content="ตรวจรถ นธ.">
 <meta name="mobile-web-app-capable" content="yes">
 <title>บันทึกตรวจรถ ผมต.นธ.</title>
+
+<!-- PWA Manifest & Icons -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="pwa-install.css">
 <style>
   :root {
     --accent: #5b2c82;
@@ -242,6 +249,10 @@
 
   <header>
     <div class="top-nav">
+      <button id="headerInstallBtn" class="nav-btn pwa-header-btn" title="ติดตั้งแอปรายงานตรวจรถบนมือถือ">
+        <span class="pwa-badge-dot"></span>
+        📲 <span>ติดตั้งแอป</span>
+      </button>
       <a href="index.html" class="nav-btn">📊 ดูแดชบอร์ดสรุปรายเดือน</a>
       <a href="form.html" class="nav-btn active">📝 บันทึกตรวจรถ</a>
     </div>
@@ -459,5 +470,6 @@
 
 })();
 </script>
+<script src="pwa-install.js"></script>
 </body>
 </html>

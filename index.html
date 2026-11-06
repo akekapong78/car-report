@@ -4,7 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#5b2c82">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ตรวจรถ นธ.">
   <title>แดชบอร์ดสรุปผลการตรวจรถ 2569 · กฟจ.นราธิวาส</title>
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1125,58 +1135,95 @@
       .chart-wrapper { height: 340px; }
     }
   </style>
+  <link rel="stylesheet" href="pwa-install.css">
 </head>
 <body>
 
 <div class="container">
 
   <!-- Header -->
+  <!-- Streamlined Header -->
   <header class="main-header">
     <div class="header-branding">
       <div class="pea-logo">PEA</div>
       <div class="header-text">
         <h1>
-          <span>รายงานตรวจรถ 2569</span>
-          <span style="font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; background: var(--primary-subtle); color: var(--primary); font-weight: 600;">Realtime Monitor</span>
+          <span>รายงานตรวจรถ</span>
+          <span class="live-pill" id="todayHeaderLivePill">⚡ LIVE วันนี้</span>
         </h1>
-        <p>การไฟฟ้าส่วนภูมิภาค จังหวัดนราธิวาส (กฟจ.นธ. และการไฟฟ้าในสังกัด)</p>
+        <p id="headerDateStr">กฟจ.นราธิวาส และการไฟฟ้าในสังกัด</p>
       </div>
     </div>
     
     <div class="header-actions">
-      <a href="index.html" class="nav-btn active">📊 แดชบอร์ดสรุปรายเดือน</a>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfaPj31ahG0RD69C6phnXxZvTygc36dVDeyLbGbCgRBZgiHMA/viewform" target="_blank" rel="noopener noreferrer" class="nav-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        แบบฟอร์มตรวจรถ
+      <!-- Primary Hero Shortcut (เด่นที่สุดตามความต้องการ) -->
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfaPj31ahG0RD69C6phnXxZvTygc36dVDeyLbGbCgRBZgiHMA/viewform" target="_blank" rel="noopener noreferrer" class="btn-hero-form" title="เปิดแบบฟอร์ม Google Form เพื่อบันทึกตรวจรถ">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>ไปกรอกฟอร์มตรวจรถ</span>
       </a>
-      <a href="https://docs.google.com/spreadsheets/d/1etuKVWh6opzevOlB3nf9VJ311IQJ_0PsCK3jshf1-JU/edit?gid=323454694#gid=323454694" target="_blank" rel="noopener noreferrer" class="nav-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        เปิด Google Sheet
-      </a>
-      <button class="theme-toggle-btn" id="themeToggleBtn" title="เปลี่ยนธีม มืด/สว่าง">🌙</button>
+
+      <!-- More Menu Button (ซ่อนสิ่งที่ไม่เน้น) -->
+      <button class="btn-menu-toggle" id="btnMoreMenu" onclick="toggleMoreMenu(true)" title="เมนูเพิ่มเติม">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+        <span>เมนู</span>
+      </button>
     </div>
   </header>
 
-  <!-- Real-time Status Bar -->
-  <div class="status-bar">
-    <div class="sync-info">
-      <span class="pulse-dot" id="syncDot"></span>
-      <span class="sync-label" id="syncStatus">กำลังเชื่อมต่อ Google Sheet แบบ Real-time...</span>
-      <span class="sync-time" id="syncTime">กำลังโหลดข้อมูล</span>
-    </div>
-    <div class="sync-controls">
-      <button class="btn-refresh" id="refreshBtn" onclick="manualRefresh()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-        <span>ดึงข้อมูลล่าสุด</span>
-      </button>
-      <label class="auto-refresh-toggle">
-        <input type="checkbox" id="autoRefreshCheckbox" checked>
-        <span>อัปเดตอัตโนมัติ (2 นาที)</span>
-      </label>
+  <!-- More Options Popup Modal -->
+  <div class="more-menu-backdrop" id="moreMenuBackdrop" onclick="toggleMoreMenu(false)">
+    <div class="more-menu-panel" onclick="event.stopPropagation()">
+      <div class="more-menu-header">
+        <span>⚙️ เมนูและตัวเลือกเพิ่มเติม</span>
+        <button class="menu-close-btn" onclick="toggleMoreMenu(false)">✕</button>
+      </div>
+      <!-- Sync Status in Menu -->
+      <div style="font-size: 12px; color: var(--text-muted); padding: 8px 12px; background: var(--bg); border-radius: 10px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="pulse-dot" id="syncDot" style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+          <span id="syncStatus">เชื่อมต่อ Google Sheets เรียบร้อย</span>
+        </div>
+        <span id="syncTime" style="font-size: 11px;">ล่าสุด</span>
+      </div>
+      <input type="checkbox" id="autoRefreshCheckbox" checked style="display: none;">
+      <button id="refreshBtn" style="display: none;"></button>
+      <div class="more-menu-links">
+        <button id="headerInstallBtn" class="menu-item-btn pwa-header-btn">
+          <span class="pwa-badge-dot"></span>
+          📲 <span>ติดตั้งแอปบนหน้าจอมือถือ (PWA)</span>
+        </button>
+        <a href="form.html" class="menu-item-link">
+          ⚡ <span>แบบฟอร์มตรวจรถกรอกด่วน (3 ช่อง)</span>
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1etuKVWh6opzevOlB3nf9VJ311IQJ_0PsCK3jshf1-JU/edit?gid=323454694#gid=323454694" target="_blank" rel="noopener noreferrer" class="menu-item-link">
+          📑 <span>เปิด Google Sheet ข้อมูลดิบ</span>
+        </a>
+        <button class="menu-item-btn" onclick="manualRefresh(); toggleMoreMenu(false);">
+          🔄 <span>รีเฟรชดึงข้อมูลล่าสุดทันที</span>
+        </button>
+        <button class="menu-item-btn" id="themeToggleBtn" onclick="toggleTheme(); toggleMoreMenu(false);">
+          🌙 <span>สลับธีม (มืด / สว่าง)</span>
+        </button>
+      </div>
     </div>
   </div>
 
-    <!-- ⚡ Today Live Inspection Monitor Widget -->
+  <!-- Segmented View Tabs (ตรวจรายวัน vs สรุปรายเดือน) -->
+  <div class="view-tabs-container">
+    <button id="tabDaily" class="view-tab-btn active" onclick="switchViewTab('daily')">
+      <span class="tab-emoji">🚗</span>
+      <span class="tab-label">ตรวจวันนี้</span>
+      <span id="tabPendingBadge" class="tab-badge">รอ 0</span>
+    </button>
+    <button id="tabMonthly" class="view-tab-btn" onclick="switchViewTab('monthly')">
+      <span class="tab-emoji">📊</span>
+      <span class="tab-label">สรุปรายเดือน</span>
+    </button>
+  </div>
+
+  <!-- ================= DAILY MONITOR VIEW ================= -->
+  <div id="dailyView">
+
   <div class="today-monitor-card" id="todayMonitorCard">
     <div class="today-header" onclick="toggleTodayWidget()">
       <div class="today-title-wrap">
@@ -1227,27 +1274,40 @@
         </div>
       </div>
 
-      <!-- Quick Sub-filters -->
-      <div class="today-filter-bar">
-        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">🏢 กรองตามแผนก:</span>
-          <select id="todayDeptFilter" class="today-dept-filter-select" onchange="renderTodayWidget()">
-            <option value="ALL">ทุกแผนก (แสดงทั้งหมด)</option>
-          </select>
+      <!-- Persistent Department Filter (จำแผนกตัวเองอัตโนมัติ) -->
+      <div class="my-dept-card">
+        <div class="my-dept-header">
+          <div class="my-dept-title">
+            <span>🏢 แผนกของฉัน:</span>
+          </div>
+          <span class="saved-badge" id="savedDeptBadge">⭐ บันทึกแผนกนี้แล้ว</span>
         </div>
-        <div style="font-size: 0.78rem; color: var(--text-muted);">
-          💡 คลิกเลือกแผนกเพื่อโฟกัสรถเฉพาะจุดได้ทันที
-        </div>
+        <select id="todayDeptFilter" class="my-dept-select" onchange="onTodayDeptChange()">
+          <option value="ALL">ทุกแผนก (แสดงรถทั้งหมด)</option>
+        </select>
       </div>
 
-      <!-- Split Left/Right Columns -->
+      <!-- Split Columns: Unchecked (รอตรวจ) อยู่ด้านบน/ด้านซ้าย เพื่อความชัดเจน -->
       <div class="today-split-grid">
-        
-        <!-- Left: Checked Today (ตรวจแล้ว) -->
+
+        <!-- 🚨 Priority 1: Unchecked Today (ยังไม่ตรวจ - รอติดตาม) -->
+        <div class="today-column col-unchecked">
+          <div class="today-col-header">
+            <div class="today-col-title">
+              <span style="color:#ef4444;">🚨 คันที่ยังไม่ลงวันนี้ (รอตรวจ)</span>
+            </div>
+            <span class="today-col-counter" id="badgeUncheckedCount" style="background:#fee2e2; color:#b91c1c;">0 คัน</span>
+          </div>
+          <div class="today-cards-list" id="listUncheckedToday">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- ✅ Priority 2: Checked Today (ตรวจแล้ว) -->
         <div class="today-column col-checked">
           <div class="today-col-header">
             <div class="today-col-title">
-              <span>✅ ตรวจเรียบร้อยแล้ววันนี้</span>
+              <span style="color:#10b981;">✅ ตรวจเรียบร้อยแล้ววันนี้</span>
             </div>
             <span class="today-col-counter" id="badgeCheckedCount">0 คัน</span>
           </div>
@@ -1256,22 +1316,13 @@
           </div>
         </div>
 
-        <!-- Right: Unchecked Today (ยังไม่ตรวจ) -->
-        <div class="today-column col-unchecked">
-          <div class="today-col-header">
-            <div class="today-col-title">
-              <span>⏳ ยังไม่พบการตรวจวันนี้ (รอติดตาม)</span>
-            </div>
-            <span class="today-col-counter" id="badgeUncheckedCount">0 คัน</span>
-          </div>
-          <div class="today-cards-list" id="listUncheckedToday">
-            <!-- Populated by JS -->
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
+  </div> <!-- Close #dailyView -->
+
+  <!-- ================= MONTHLY SUMMARY VIEW ================= -->
+  <div id="monthlyView" style="display: none;">
 
   <!-- Filter Controls -->
   <div class="filter-panel">
@@ -1472,6 +1523,8 @@
     </div>
   </div>
 
+  </div> <!-- Close #monthlyView -->
+
   <footer class="dashboard-footer">
     <p>ระบบติดตามผลการตรวจรถยนต์ก่อนปฏิบัติงาน · การไฟฟ้าส่วนภูมิภาค จังหวัดนราธิวาส (กฟจ.นธ.)</p>
     <p style="margin-top: 4px; font-size: 0.75rem;">เชื่อมต่อข้อมูลแบบเรียลไทม์ผ่าน Google Sheets API</p>
@@ -1534,20 +1587,94 @@ function toggleTodayWidget() {
   localStorage.setItem('carReportTodayCollapsed', isCollapsed ? 'true' : 'false');
 }
 
+
+// ================= PWA & View Mode Switching Helpers =================
+const SAVED_DEPT_KEY = 'pea_car_my_dept';
+const VIEW_MODE_KEY = 'pea_car_view_mode';
+
+function toggleMoreMenu(forceState) {
+  const menu = document.getElementById('moreMenuBackdrop');
+  if (!menu) return;
+  if (typeof forceState === 'boolean') {
+    menu.classList.toggle('open', forceState);
+  } else {
+    menu.classList.toggle('open');
+  }
+}
+
+function switchViewTab(tab) {
+  const dailyEl = document.getElementById('dailyView');
+  const monthlyEl = document.getElementById('monthlyView');
+  const tabDaily = document.getElementById('tabDaily');
+  const tabMonthly = document.getElementById('tabMonthly');
+
+  if (!dailyEl || !monthlyEl || !tabDaily || !tabMonthly) return;
+
+  if (tab === 'daily') {
+    dailyEl.style.display = 'block';
+    monthlyEl.style.display = 'none';
+    tabDaily.classList.add('active');
+    tabMonthly.classList.remove('active');
+  } else {
+    dailyEl.style.display = 'none';
+    monthlyEl.style.display = 'block';
+    tabDaily.classList.remove('active');
+    tabMonthly.classList.add('active');
+    setTimeout(() => {
+      if (typeof updateChartTheme === 'function') updateChartTheme();
+    }, 50);
+  }
+  try {
+    localStorage.setItem(VIEW_MODE_KEY, tab);
+  } catch (e) {}
+}
+
+function onTodayDeptChange() {
+  const select = document.getElementById('todayDeptFilter');
+  if (!select) return;
+  const val = select.value;
+  try {
+    localStorage.setItem(SAVED_DEPT_KEY, val);
+  } catch (e) {}
+  updateSavedDeptBadge(val);
+
+  // Sync to monthly dept selector too
+  const mDept = document.getElementById('deptSelect');
+  if (mDept && val !== 'ALL') {
+    mDept.value = val;
+    if (typeof onFilterChange === 'function') onFilterChange();
+  }
+
+  renderTodayWidget();
+  showToast(val === 'ALL' ? 'แสดงรถทุกแผนก' : `จำแผนก "${val}" ไว้เป็นค่าเริ่มต้นแล้ว ⭐`);
+}
+
+function updateSavedDeptBadge(dept) {
+  const badge = document.getElementById('savedDeptBadge');
+  if (badge) {
+    badge.textContent = (!dept || dept === 'ALL') ? 'ทุกแผนก' : `⭐ จำ "${dept}" ไว้แล้ว`;
+  }
+}
+
 function setupTodayDeptFilter() {
   const select = document.getElementById('todayDeptFilter');
   if (!select) return;
-  const curr = select.value;
-  const depts = Array.from(new Set(STATE.vehicles.map(v => v.dept))).filter(Boolean);
-  select.innerHTML = '<option value="ALL">ทุกแผนก (แสดงทั้งหมด)</option>';
+  const savedDept = localStorage.getItem(SAVED_DEPT_KEY) || 'ALL';
+  const depts = Array.from(new Set((STATE.vehicles || []).map(v => v.dept))).filter(Boolean).sort();
+  select.innerHTML = '<option value="ALL">ทุกแผนก (แสดงรถทั้งหมด)</option>';
   depts.forEach(d => {
     const opt = document.createElement('option');
     opt.value = d;
     opt.textContent = d;
-    if (d === curr) opt.selected = true;
+    if (d === savedDept) opt.selected = true;
     select.appendChild(opt);
   });
+  if (savedDept !== 'ALL') {
+    select.value = savedDept;
+  }
+  updateSavedDeptBadge(savedDept);
 }
+
 
 async function fetchLiveTodayData() {
   // Query only recent 150 rows order by timestamp desc for optimal speed (< 20KB transfer)
@@ -1812,26 +1939,40 @@ function renderTodayWidget() {
     }
   }
 
-  // Render Right Column (Unchecked)
+  // Update tabPendingBadge
+  const elTabBadge = document.getElementById('tabPendingBadge');
+  if (elTabBadge) {
+    elTabBadge.textContent = 'รอ ' + uncheckedCount;
+    elTabBadge.style.display = uncheckedCount > 0 ? 'inline-block' : 'none';
+  }
+
+  // Render Unchecked Cars (จัดวางเป็นลำดับแรกเพื่อให้ตรวจเช็คคันที่ยังไม่ลงได้ทันที)
   const uncheckedListEl = document.getElementById('listUncheckedToday');
   if (uncheckedListEl) {
     if (uncheckedCars.length === 0) {
-      uncheckedListEl.innerHTML = '<div class="today-empty-state" style="color: #10b981;">🎉 ยอดเยี่ยม! ทุกคันตรวจครบถ้วนแล้วสำหรับเงื่อนไขนี้</div>';
+      uncheckedListEl.innerHTML = `
+        <div class="today-empty-state" style="color: #10b981; padding: 20px; font-weight: 600;">
+          <div style="font-size: 1.5rem; margin-bottom: 6px;">🎉</div>
+          <div>เยี่ยมมาก! ตรวจครบ 100% ทุกคันแล้วในเงื่อนไขนี้</div>
+        </div>`;
     } else {
+      const gFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfaPj31ahG0RD69C6phnXxZvTygc36dVDeyLbGbCgRBZgiHMA/viewform";
       uncheckedListEl.innerHTML = uncheckedCars.map((v, i) => {
         return `
-          <div class="today-car-card" style="animation-delay: ${Math.min(i * 0.02, 0.4)}s;">
+          <div class="today-car-card" style="animation-delay: ${Math.min(i * 0.02, 0.4)}s; border-left: 4px solid #ef4444;">
             <div class="car-info-main">
               <div class="car-plate-title">
-                <span style="opacity: 0.9;">🚙 ${v.plate}</span>
+                <span style="font-weight: 700; color: #1e1926;">🚙 ${v.plate}</span>
               </div>
               <div class="car-meta-sub">
-                <span class="car-dept-tag">${v.dept}</span>
+                <span class="car-dept-tag" style="background: rgba(239,68,68,0.1); color: #dc2626;">${v.dept}</span>
                 <span class="car-office-tag">${v.office}</span>
               </div>
             </div>
             <div class="car-status-side">
-              <span class="car-warn-pill">⏳ ยังไม่ตรวจ</span>
+              <a href="${gFormUrl}" target="_blank" rel="noopener noreferrer" class="btn-car-check-direct" title="เปิดแบบฟอร์มเพื่อบันทึกตรวจรถคันนี้">
+                📝 <span>กรอกตรวจรถ</span>
+              </a>
             </div>
           </div>
         `;
@@ -1869,6 +2010,20 @@ function showToast(msg, icon = 'ℹ️') {
 // Initialize Dashboard
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  
+  // Restore saved view mode (default: daily)
+  const savedView = localStorage.getItem(VIEW_MODE_KEY) || 'daily';
+  switchViewTab(savedView);
+
+  // Set header date string (compact format: ศ. 6 พ.ย. 2569 · กฟจ.นราธิวาส)
+  const now = new Date();
+  const dNames = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
+  const mShort = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+  const hDateEl = document.getElementById('headerDateStr');
+  if (hDateEl) {
+    hDateEl.textContent = `${dNames[now.getDay()]} ${now.getDate()} ${mShort[now.getMonth()]} ${now.getFullYear() + 543} · กฟจ.นราธิวาส`;
+  }
+
   setupMonthSelector();
   setupOfficeSelector();
   setupDeptSelector();
@@ -2640,6 +2795,13 @@ function manualRefresh() {
 
 function setupAutoRefresh() {
   const checkbox = document.getElementById('autoRefreshCheckbox');
+  if (!checkbox) {
+    if (STATE.autoRefreshInterval) clearInterval(STATE.autoRefreshInterval);
+    STATE.autoRefreshInterval = setInterval(() => {
+      fetchLiveGoogleSheetData(false);
+    }, 120000);
+    return;
+  }
   const toggle = () => {
     if (checkbox.checked) {
       if (STATE.autoRefreshInterval) clearInterval(STATE.autoRefreshInterval);
@@ -2782,6 +2944,7 @@ function updateChartTheme() {
   renderTierChart();
 }
 </script>
+<script src="pwa-install.js"></script>
 
 </body>
 </html>

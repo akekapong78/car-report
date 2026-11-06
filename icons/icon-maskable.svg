@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7b42a8"/>
+      <stop offset="50%" stop-color="#5b2c82"/>
+      <stop offset="100%" stop-color="#3b1759"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Full bleed square for maskable -->
+  <rect width="512" height="512" fill="url(#bgGrad)"/>
+
+  <!-- Centered safe-zone group (scale 0.78) -->
+  <g transform="translate(56, 56) scale(0.78)">
+    <!-- Top PEA Pill -->
+    <g filter="url(#shadow)">
+      <rect x="176" y="58" width="160" height="52" rx="26" fill="rgba(255,255,255,0.22)" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+      <text x="256" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="36" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="4">PEA</text>
+    </g>
+
+    <!-- Car Silhouette -->
+    <g filter="url(#shadow)" fill="#ffffff">
+      <!-- Cabin Roof & Windows -->
+      <path d="M125 285 L180 185 C185 175 195 170 208 170 L304 170 C317 170 327 175 332 185 L387 285 Z" fill="#ffffff"/>
+      <path d="M195 186 L152 268 L244 268 L244 186 Z" fill="#5b2c82" opacity="0.88"/>
+      <path d="M268 186 L268 268 L360 268 L317 186 Z" fill="#5b2c82" opacity="0.88"/>
+      <rect x="80" y="270" width="352" height="96" rx="28" fill="#ffffff"/>
+      <rect x="90" y="286" width="36" height="24" rx="8" fill="url(#goldGrad)"/>
+      <rect x="386" y="286" width="36" height="24" rx="8" fill="url(#goldGrad)"/>
+      <rect x="190" y="296" width="132" height="12" rx="6" fill="#e2e8f0"/>
+      <rect x="204" y="316" width="104" height="10" rx="5" fill="#cbd5e1"/>
+      <rect x="120" y="348" width="272" height="20" rx="8" fill="#e2e8f0"/>
+    </g>
+
+    <!-- Wheels -->
+    <g fill="#261b33">
+      <circle cx="140" cy="378" r="38"/>
+      <circle cx="140" cy="378" r="20" fill="#cbd5e1"/>
+      <circle cx="140" cy="378" r="9" fill="#5b2c82"/>
+      <circle cx="372" cy="378" r="38"/>
+      <circle cx="372" cy="378" r="20" fill="#cbd5e1"/>
+      <circle cx="372" cy="378" r="9" fill="#5b2c82"/>
+    </g>
+
+    <!-- Inspection Checkmark Badge -->
+    <g filter="url(#shadow)" transform="translate(325, 325)">
+      <circle cx="65" cy="65" r="62" fill="#10b981" stroke="#ffffff" stroke-width="8"/>
+      <path d="M42 66 L58 82 L90 48" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

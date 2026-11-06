@@ -1,0 +1,50 @@
+{
+  "id": "/car-report/",
+  "name": "รายงานตรวจรถ กฟจ.นราธิวาส",
+  "short_name": "ตรวจรถ นธ.",
+  "description": "ระบบรายงานและติดตามผลการตรวจรถประจำวัน กฟจ.นราธิวาส Realtime Monitor",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f4f8",
+  "theme_color": "#5b2c82",
+  "lang": "th",
+  "categories": ["productivity", "utilities", "business"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "แดชบอร์ดสรุปรายเดือน",
+      "short_name": "แดชบอร์ด",
+      "description": "ดูสรุปผลการตรวจรถประจำเดือน กฟจ.นราธิวาส",
+      "url": "./index.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "บันทึกตรวจรถ",
+      "short_name": "ตรวจรถ",
+      "description": "เปิดแบบฟอร์มบันทึกการตรวจรถ",
+      "url": "./form.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

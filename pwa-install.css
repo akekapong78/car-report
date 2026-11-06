@@ -1,0 +1,630 @@
+/* PWA Mobile Responsive, Streamlined UI & Installation Styles */
+
+/* ==========================================================================
+   1. Clean Compact Header & Hero Actions
+   ========================================================================== */
+
+/* Hero Form Quick Button (เด่นที่สุดตามที่ผู้ใช้ต้องการ) */
+.btn-hero-form {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  padding: 9px 18px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.btn-hero-form:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45) !important;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+}
+
+.btn-hero-form:active {
+  transform: scale(0.98);
+}
+
+/* More Menu Toggle Button */
+.btn-menu-toggle {
+  background: var(--card-bg) !important;
+  color: var(--text-muted) !important;
+  border: 1.5px solid var(--card-border) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  padding: 8px 14px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.btn-menu-toggle:hover {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+  background: var(--primary-subtle) !important;
+}
+
+/* Header Live Pill */
+.live-pill {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+[data-theme="dark"] .live-pill {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* ==========================================================================
+   2. Segmented Mode Switcher (ตรวจรายวัน vs สรุปรายเดือน)
+   ========================================================================== */
+.view-tabs-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--card-bg);
+  padding: 4px;
+  border-radius: 14px;
+  border: 1.5px solid var(--card-border);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+  gap: 6px;
+}
+
+.view-tab-btn {
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+  white-space: nowrap;
+  height: 42px;
+  min-height: 42px;
+}
+
+.view-tab-btn .tab-label {
+  white-space: nowrap;
+}
+
+.view-tab-btn:hover {
+  color: var(--primary);
+  background: rgba(91, 44, 130, 0.05);
+}
+
+.view-tab-btn.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(91, 44, 130, 0.25);
+}
+
+[data-theme="dark"] .view-tab-btn.active {
+  background: linear-gradient(135deg, #7b42a8 0%, #5b2c82 100%);
+}
+
+.tab-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  white-space: nowrap;
+  line-height: 1.1;
+}
+
+.view-tab-btn.active .tab-badge {
+  background: #ffffff;
+  color: #ef4444;
+  border: none;
+}
+
+/* ==========================================================================
+   3. Focused Department Filter with Auto-Memory
+   ========================================================================== */
+.my-dept-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.my-dept-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.my-dept-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.saved-badge {
+  font-size: 0.75rem;
+  color: var(--primary);
+  background: var(--primary-subtle);
+  border: 1px solid rgba(91, 44, 130, 0.2);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.my-dept-select {
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--card-border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M5 8l5 5 5-5' stroke='%236b6377' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  transition: border-color 0.2s;
+}
+
+.my-dept-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(91, 44, 130, 0.12);
+}
+
+/* ==========================================================================
+   4. Unchecked Cars Priority Highlighting
+   ========================================================================== */
+.btn-car-check-direct {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+  transition: all 0.15s ease;
+}
+
+.btn-car-check-direct:hover {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   5. More Menu Modal / Dropdown
+   ========================================================================== */
+.more-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 10, 25, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+}
+
+.more-menu-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.more-menu-panel {
+  width: 100%;
+  max-width: 460px;
+  background: var(--card-bg);
+  border-radius: 20px 20px 0 0;
+  padding: 20px 20px max(20px, env(safe-area-inset-bottom, 20px));
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.more-menu-backdrop.open .more-menu-panel {
+  transform: translateY(0);
+}
+
+.more-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 10px;
+}
+
+.menu-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.more-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item-link, .menu-item-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.menu-item-link:hover, .menu-item-btn:hover {
+  background: var(--primary-subtle);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   6. Streamlined Floating PWA Banner (Less Intrusive)
+   ========================================================================== */
+.pwa-banner-wrap {
+  position: fixed;
+  bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  left: 50%;
+  transform: translateX(-50%) translateY(150%);
+  width: calc(100% - 24px);
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(123, 66, 168, 0.25);
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 24px rgba(91, 44, 130, 0.18);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .pwa-banner-wrap {
+  background: rgba(33, 27, 43, 0.98);
+  border-color: rgba(176, 131, 224, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.pwa-banner-wrap.pwa-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pwa-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pwa-banner-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.pwa-banner-text {
+  min-width: 0;
+}
+
+.pwa-banner-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text, #1e1926);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pwa-banner-desc {
+  font-size: 11px;
+  color: var(--text-muted, #6b6377);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pwa-banner-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pwa-btn-install-mini {
+  background: linear-gradient(135deg, #5b2c82 0%, #7b42a8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(91, 44, 130, 0.3);
+}
+
+.pwa-btn-install-mini:active {
+  transform: scale(0.97);
+}
+
+.pwa-close-btn-mini {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   7. Mobile Specific Refinements (< 768px and < 480px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  header.main-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  
+  .header-branding {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .pea-logo {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .header-text {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .header-text h1 {
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  #headerDateStr {
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-muted);
+    margin: 2px 0 0 0;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn-hero-form {
+    flex: 1;
+    justify-content: center;
+    height: 38px;
+    padding: 0 12px !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .btn-menu-toggle {
+    height: 38px;
+    padding: 0 14px !important;
+    font-size: 0.82rem !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .view-tabs-container {
+    margin-bottom: 12px;
+    gap: 4px;
+    padding: 3px;
+  }
+
+  .view-tab-btn {
+    padding: 8px 6px;
+    font-size: 0.86rem;
+    height: 40px;
+    min-height: 40px;
+  }
+
+  /* Split grid: On mobile, Unchecked cars stay on top! */
+  .today-split-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .col-unchecked {
+    order: 1; /* Unchecked cars FIRST */
+  }
+
+  .col-checked {
+    order: 2; /* Checked cars SECOND */
+  }
+
+  /* Monthly View: Compact 2x2 Filter Grid & KPI Grid */
+  .filter-panel {
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .form-group {
+    gap: 4px;
+  }
+
+  .form-group label {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    gap: 4px;
+  }
+
+  select.form-control {
+    height: 36px;
+    padding: 6px 8px;
+    padding-right: 24px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    background-size: 14px 14px;
+    background-position: right 6px center;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .kpi-card {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  .kpi-header {
+    margin-bottom: 4px;
+  }
+
+  .kpi-title {
+    font-size: 0.72rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .kpi-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .kpi-value {
+    font-size: 1.25rem !important;
+    line-height: 1.2;
+    margin-bottom: 3px;
+    white-space: nowrap;
+  }
+
+  .kpi-subtext {
+    font-size: 0.68rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    gap: 4px;
+  }
+
+  .kpi-badge {
+    font-size: 0.62rem !important;
+    padding: 1px 5px !important;
+  }
+}
