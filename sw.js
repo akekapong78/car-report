@@ -1,11 +1,13 @@
 // Service Worker for PEA Car Report PWA
-const CACHE_NAME = 'car-report-shell-v1';
-const DATA_CACHE_NAME = 'car-report-data-v1';
+const CACHE_NAME = 'car-report-shell-v2';
+const DATA_CACHE_NAME = 'car-report-data-v2';
 
 const APP_SHELL_URLS = [
   './',
   './index.html',
   './form.html',
+  './pwa-install.css',
+  './pwa-install.js',
   './manifest.webmanifest',
   './manifest.json',
   './icons/favicon.svg',
@@ -16,19 +18,20 @@ const APP_SHELL_URLS = [
   './icons/apple-touch-icon.png'
 ];
 
-// Install: Cache core application shell
+// Install: Cache core application shell & skip waiting immediately
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Pre-caching App Shell');
+      console.log('[SW] Pre-caching App Shell v2');
       return cache.addAll(APP_SHELL_URLS).catch((err) => {
-        console.warn('[SW] Some shell assets failed to cache:', err);
+        console.warn('[SW] Shell asset cache warning:', err);
       });
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
-// Activate: Clean up older cache versions
+// Activate: Immediately claim clients & purge all older caches
 self.addEventListener('activate', (event) => {
   const currentCaches = [CACHE_NAME, DATA_CACHE_NAME];
   event.waitUntil(
@@ -36,7 +39,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((name) => {
           if (!currentCaches.includes(name)) {
-            console.log('[SW] Deleting old cache:', name);
+            console.log('[SW] Purging old cache:', name);
             return caches.delete(name);
           }
         })
@@ -45,24 +48,21 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Strategy depending on request type
+// Fetch: Network-First for HTML/CSS/JS (Always fresh, offline fallback)
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Only handle GET requests
   if (req.method !== 'GET') return;
 
-  // 1. Google Sheets / CSV live data: Network-first with cache fallback
+  // 1. Google Sheets live data: Network-First with cache fallback
   if (url.hostname.includes('docs.google.com') && url.pathname.includes('/spreadsheets/')) {
     event.respondWith(
       fetch(req)
         .then((networkRes) => {
           if (networkRes && networkRes.status === 200) {
             const resClone = networkRes.clone();
-            caches.open(DATA_CACHE_NAME).then((cache) => {
-              cache.put(req, resClone);
-            });
+            caches.open(DATA_CACHE_NAME).then((cache) => cache.put(req, resClone));
           }
           return networkRes;
         })
@@ -74,49 +74,49 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Google Fonts & CDN Libraries (Chart.js): Stale-While-Revalidate
-  if (url.hostname.includes('fonts.googleapis.com') ||
-      url.hostname.includes('fonts.gstatic.com') ||
-      url.hostname.includes('cdn.jsdelivr.net')) {
+  // 2. Navigation & App Shell Assets (HTML, CSS, JS): Network-First
+  const isAppShellAsset =
+    req.mode === 'navigate' ||
+    url.origin === location.origin ||
+    url.pathname.endsWith('.html') ||
+    url.pathname.endsWith('.js') ||
+    url.pathname.endsWith('.css');
+
+  if (isAppShellAsset) {
     event.respondWith(
-      caches.match(req).then((cachedRes) => {
-        const fetchPromise = fetch(req).then((networkRes) => {
+      fetch(req)
+        .then((networkRes) => {
           if (networkRes && networkRes.status === 200) {
             const resClone = networkRes.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
           }
           return networkRes;
-        }).catch(() => null);
-        return cachedRes || fetchPromise;
-      })
+        })
+        .catch(() => {
+          console.log('[SW] Network failed, serving cached shell for:', req.url);
+          return caches.match(req).then((cached) => cached || caches.match('./index.html'));
+        })
     );
     return;
   }
 
-  // 3. App Shell (HTML, icons, local files): Cache-first with network fallback & background update
+  // 3. Fonts & CDN (Stale-While-Revalidate)
   event.respondWith(
     caches.match(req).then((cachedRes) => {
-      if (cachedRes) {
-        // Fetch in background to keep cache fresh
-        fetch(req).then((networkRes) => {
+      const fetchPromise = fetch(req)
+        .then((networkRes) => {
           if (networkRes && networkRes.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, networkRes));
+            const resClone = networkRes.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
           }
-        }).catch(() => {/* offline */});
-        return cachedRes;
-      }
-      return fetch(req).then((networkRes) => {
-        if (networkRes && networkRes.status === 200 && url.origin === location.origin) {
-          const resClone = networkRes.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
-        }
-        return networkRes;
-      });
+          return networkRes;
+        })
+        .catch(() => null);
+      return cachedRes || fetchPromise;
     })
   );
 });
 
-// Listen for messages
 self.addEventListener('message', (event) => {
   if (event.data && event.data.action === 'skipWaiting') {
     self.skipWaiting();

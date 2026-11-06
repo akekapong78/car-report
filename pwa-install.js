@@ -19,10 +19,20 @@
         .register('./sw.js')
         .then((reg) => {
           console.log('[PWA] Service Worker active:', reg.scope);
+          reg.update();
         })
         .catch((err) => {
           console.warn('[PWA] Service Worker registration failed:', err);
         });
+    });
+
+    // Auto reload when service worker updates to latest version
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
     });
   }
 
