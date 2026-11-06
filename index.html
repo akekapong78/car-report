@@ -1190,19 +1190,16 @@
       <div class="more-menu-links">
         <button id="headerInstallBtn" class="menu-item-btn pwa-header-btn">
           <span class="pwa-badge-dot"></span>
-          📲 <span>ติดตั้งแอปบนหน้าจอมือถือ (PWA)</span>
+          📲 <span>เพิ่มทางลัดบนหน้าจอมือถือ</span>
         </button>
-        <a href="form.html" class="menu-item-link">
-          ⚡ <span>แบบฟอร์มตรวจรถกรอกด่วน (3 ช่อง)</span>
-        </a>
         <a href="https://docs.google.com/spreadsheets/d/1etuKVWh6opzevOlB3nf9VJ311IQJ_0PsCK3jshf1-JU/edit?gid=323454694#gid=323454694" target="_blank" rel="noopener noreferrer" class="menu-item-link">
           📑 <span>เปิด Google Sheet ข้อมูลดิบ</span>
         </a>
         <button class="menu-item-btn" onclick="manualRefresh(); toggleMoreMenu(false);">
           🔄 <span>รีเฟรชดึงข้อมูลล่าสุดทันที</span>
         </button>
-        <button class="menu-item-btn" id="themeToggleBtn" onclick="toggleTheme(); toggleMoreMenu(false);">
-          🌙 <span>สลับธีม (มืด / สว่าง)</span>
+        <button class="menu-item-btn" id="themeToggleBtn">
+          🌙 <span>Darkmode (โหมดมืด)</span>
         </button>
       </div>
     </div>
@@ -1962,10 +1959,10 @@ function renderTodayWidget() {
           <div class="today-car-card" style="animation-delay: ${Math.min(i * 0.02, 0.4)}s; border-left: 4px solid #ef4444;">
             <div class="car-info-main">
               <div class="car-plate-title">
-                <span style="font-weight: 700; color: #1e1926;">🚙 ${v.plate}</span>
+                <span>🚙 ${v.plate}</span>
               </div>
               <div class="car-meta-sub">
-                <span class="car-dept-tag" style="background: rgba(239,68,68,0.1); color: #dc2626;">${v.dept}</span>
+                <span class="car-dept-tag tag-unchecked">${v.dept}</span>
                 <span class="car-office-tag">${v.office}</span>
               </div>
             </div>
@@ -2038,21 +2035,39 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Theme Toggle
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  setTheme(current === 'dark' ? 'light' : 'dark');
+}
+
 function initTheme() {
   const savedTheme = localStorage.getItem('carReportTheme') || 'light';
   setTheme(savedTheme);
   
-  document.getElementById('themeToggleBtn').addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    setTheme(current === 'dark' ? 'light' : 'dark');
-  });
+  const btn = document.getElementById('themeToggleBtn');
+  if (btn && !btn._hasClickListener) {
+    btn._hasClickListener = true;
+    btn.addEventListener('click', () => {
+      toggleTheme();
+      if (typeof toggleMoreMenu === 'function') toggleMoreMenu(false);
+    });
+  }
 }
 
 function setTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('carReportTheme', theme);
-  document.getElementById('themeToggleBtn').textContent = theme === 'dark' ? '☀️' : '🌙';
-  if (STATE.charts.deptChart) {
+  const btn = document.getElementById('themeToggleBtn');
+  if (btn) {
+    if (theme === 'dark') {
+      btn.innerHTML = '☀️ <span>Lightmode (โหมดสว่าง)</span>';
+      btn.title = 'เปลี่ยนเป็นโหมดสว่าง';
+    } else {
+      btn.innerHTML = '🌙 <span>Darkmode (โหมดมืด)</span>';
+      btn.title = 'เปลี่ยนเป็นโหมดมืด (Darkmode)';
+    }
+  }
+  if (STATE.charts && STATE.charts.deptChart) {
     updateChartTheme();
   }
 }
